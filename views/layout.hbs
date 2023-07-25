@@ -1,4 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
   <head>
     <meta charset="UTF-8" />
@@ -9,7 +14,26 @@
   </head>
 
   <body>
+    <header class="header-bar">
+    <div class="bar-left" >
+          <a  href="/">Inicio</a>
+          <a  href="/jokes/chiste-random">Chiste Random</a>
+          <a  href="/user/profile">Publica un Chiste</a>
+          <a  href="/">Chistes Publicados</a>
 
+
+    </div>
+    <div class="bar-right" >
+      <a href="/user/signup">Registrate</a>
+      <a href="/user/login">Login</a>
+      <p id="log-status">{{#if username}}
+        {{username}} Logged in
+      {{else}}
+        Guest
+      {{/if}}</p>
+      <a href="/user/logout">Cierra Sesión</a>
+    </div>
+    </header>
     {{{body}}}
 
     <script src="/js/script.js"></script>

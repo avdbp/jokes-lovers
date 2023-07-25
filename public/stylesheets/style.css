@@ -1,12 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font-family: 'Carter One', cursive;}
 
 a {
   color: #00b7ff;
 }
 
-h1 {
-  color: 15px;
+
+.header-bar {
+  background-image: url(../images/psicodelic.png);
+  background-color: #a91111;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;  height: 50px;
+  border-radius: 10px;
+}
+
+
+
+.header-bar a {
+display: flex;
+color: #f9f5f5;
+text-decoration: none;
+margin-right: 50px;
+align-items: center;
+}
+
+.bar-left {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.bar-right {
+  display: flex;
+  align-items: center;
+}
+
+a:hover {
+  color: rgb(145, 205, 242);
+}
+
+.bar-right  p {
+  background-color: #101010;
+  border-radius: 5px;
+  padding: 5px 15px;
+  color: #ffffff;
+  margin-right: 30px;
+  
 }
