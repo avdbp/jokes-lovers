@@ -24,14 +24,14 @@
 
     </div>
     <div class="bar-right" >
-      <a href="/user/signup">Registrate</a>
-      <a href="/user/login">Login</a>
-      <p id="log-status">{{#if username}}
-        {{username}} Logged in
-      {{else}}
-        Guest
-      {{/if}}</p>
-      <a href="/user/logout">Cierra Sesión</a>
+      <a href="/auth/signup">Registrate</a>
+      <a href="/auth/login">Login</a>
+      <p id="log-status">{{#if user}}
+    {{user.name}} Logged in
+  {{else}}
+    Invitado
+  {{/if}}</p>
+      <a href="/auth/logout">Cierra Sesión</a>
     </div>
     </header>
     {{{body}}}

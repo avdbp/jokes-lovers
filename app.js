@@ -39,5 +39,9 @@ app.use('/jokes', viewsRoutes);
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
+app.use((req, res, next) => {
+    res.locals.user = req.session.currentUser; // Asegúrate de que currentUser esté configurado después del inicio de sesión
+    next();
+  });
 
 module.exports = app;

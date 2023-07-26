@@ -1,19 +1,34 @@
 <div id="form">
   <h2>Sign Up</h2>
   <form action="/auth/signup" method="POST">
+  
+    <label> Nombre
+      <input type="text" name="name" placeholder="Tu Nombre y Apellido" />
+    </label>
 
     <label> Username
-      <input type="text" name="username" placeholder="Your username" />
+      <input type="text" name="username" placeholder="Username" />
     </label>
 
     <label> Email
-      <input type="email" name="email" placeholder="Your email" />
+      <input type="email" name="email" placeholder="email" />
     </label>
-
-    <label> Password
-      <input type="password" name="password" placeholder="Your password" />
-    </label>
-
+    <label for="floatingPassword">Elige tu Password</label>
+      <input
+      type="password"
+      class="form-control"
+      id="floatingPassword"
+      placeholder="Password"
+      name="password"
+    />
+    <label for="floatingRepeatPassword">Repite tu Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="floatingRepeatPassword"
+      placeholder="Password"
+      name="passwordRepeat"
+    />
     <button type="submit">Sign Up</button>
 
 

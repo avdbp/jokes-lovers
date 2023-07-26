@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
 
 body {
+  background-image: url(../images/haha.jpg);
   padding: 50px;
   font-family: 'Carter One', cursive;}
+  
 
 a {
   color: #00b7ff;
@@ -50,4 +52,9 @@ a:hover {
   color: #ffffff;
   margin-right: 30px;
   
+}
+
+.error {
+  color: #a91111;
+  font-size: 18px;
 }

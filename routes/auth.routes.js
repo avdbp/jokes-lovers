@@ -17,27 +17,34 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /auth/signup
-router.get("/signup", isLoggedOut, (req, res) => {
+router.get("/signup", isLoggedOut, (req, res, next) => {
   res.render("auth/signup");
 });
 
 // POST /auth/signup
-router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, email, password } = req.body;
+router.post("/signup", isLoggedOut, (req, res, next) => {
+  const { name, username, email, password, passwordRepeat } = req.body;
 
   // Check that username, email, and password are provided
-  if (username === "" || email === "" || password === "") {
+  if (name === "" || username === "" || email === "" || password === "" || passwordRepeat === ""  ) {
     res.status(400).render("auth/signup", {
       errorMessage:
-        "All fields are mandatory. Please provide your username, email and password.",
+        "Todos los campos deben estar llenos",
     });
 
     return;
   }
 
+  if (password != passwordRepeat) {
+    res.render("auth/signup", {
+      errorMessage: "Las contraseñas no coinciden.",
+    });
+    return;
+  }
+
   if (password.length < 6) {
     res.status(400).render("auth/signup", {
-      errorMessage: "Your password needs to be at least 6 characters long.",
+      errorMessage: "Tu Password debe tener al menos 6 caracteres y debe contener al menos un número, una minúscula y una letra mayúscula."
     });
 
     return;
@@ -50,7 +57,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
     res
       .status(400)
       .render("auth/signup", {
-        errorMessage: "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter."
+        errorMessage: "Tu Password debe tener al menos 6 caracteres y debe contener al menos un número, una minúscula y una letra mayúscula."
     });
     return;
   }
@@ -62,7 +69,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => {
       // Create a user and save it in the database
-      return User.create({ username, email, password: hashedPassword });
+      return User.create({ name, username, email, password: hashedPassword });
     })
     .then((user) => {
       res.redirect("/auth/login");
@@ -73,7 +80,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
       } else if (error.code === 11000) {
         res.status(500).render("auth/signup", {
           errorMessage:
-            "Username and email need to be unique. Provide a valid username or email.",
+            "El Username y el Email deben ser únicos. Introduce un Username y un Email válidos.",
         });
       } else {
         next(error);
@@ -82,19 +89,19 @@ router.post("/signup", isLoggedOut, (req, res) => {
 });
 
 // GET /auth/login
-router.get("/login", isLoggedOut, (req, res) => {
+router.get("/login", isLoggedOut, (req, res, next) => {
   res.render("auth/login");
 });
 
 // POST /auth/login
 router.post("/login", isLoggedOut, (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
   // Check that username, email, and password are provided
-  if (username === "" || email === "" || password === "") {
+  if (username === "" || password === "") {
     res.status(400).render("auth/login", {
       errorMessage:
-        "All fields are mandatory. Please provide username, email and password.",
+      "Todos los campos deben estar llenos",
     });
 
     return;
@@ -102,20 +109,21 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Here we use the same logic as above
   // - either length based parameters or we check the strength of a password
-  if (password.length < 6) {
-    return res.status(400).render("auth/login", {
-      errorMessage: "Your password needs to be at least 6 characters long.",
-    });
-  }
+  
+  // if (password.length < 6) {
+  //   return res.status(400).render("auth/login", {
+  //     errorMessage: "Your password needs to be at least 6 characters long.",
+  //   });
+  // }
 
   // Search the database for a user with the email submitted in the form
-  User.findOne({ email })
+  User.findOne({ username })
     .then((user) => {
       // If the user isn't found, send an error message that user provided wrong credentials
       if (!user) {
         res
           .status(400)
-          .render("auth/login", { errorMessage: "Wrong credentials." });
+          .render("auth/login", { errorMessage: " Tu Username o Password no conciden, intentalo de nuevo." });
         return;
       }
 
@@ -126,7 +134,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
           if (!isSamePassword) {
             res
               .status(400)
-              .render("auth/login", { errorMessage: "Wrong credentials." });
+              .render("auth/login", { errorMessage: "Tu Username o Password no conciden, intentalo de nuevo." });
             return;
           }
 
@@ -143,14 +151,14 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 });
 
 // GET /auth/logout
-router.get("/logout", isLoggedIn, (req, res) => {
+router.get("/logout", isLoggedIn, (req, res, next) => {
   req.session.destroy((err) => {
     if (err) {
-      res.status(500).render("auth/logout", { errorMessage: err.message });
+      res.status(500).render("/", { errorMessage: err.message });
       return;
     }
 
-    res.redirect("/");
+    return res.redirect("/auth/login");
   });
 });
 
