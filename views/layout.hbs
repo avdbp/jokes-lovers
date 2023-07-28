@@ -18,8 +18,8 @@
     <div class="bar-left" >
           <a  href="/">Inicio</a>
           <a  href="/jokes/chiste-random">Chiste Random</a>
-          <a  href="/user/profile">Publica un Chiste</a>
-          <a  href="/">Chistes Publicados</a>
+          <a  href="/jokes/create-joke">Publica un Chiste</a>
+          <a  href="/jokes/jokes-list">Chistes Publicados</a>
 
 
     </div>
@@ -27,7 +27,7 @@
       <a href="/auth/signup">Registrate</a>
       <a href="/auth/login">Login</a>
       <p id="log-status">{{#if user}}
-    {{user.name}} Logged in
+    {{user.username}} Logged in
   {{else}}
     Invitado
   {{/if}}</p>

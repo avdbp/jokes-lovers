@@ -1,0 +1,20 @@
+{{! posts/list.hbs }}
+
+<h2>Chistes Publicados</h2>
+
+<ul>
+  {{#each jokes}}
+
+  <li>
+    {{this.content}}
+  </li>
+
+    <li>
+      {{this.author.username}}
+      {{this.author.email}}
+      {{this.author.name}}
+
+      <a href="/jokes/{{this._id}}">Read more</a>
+    </li>
+  {{/each}}
+</ul>

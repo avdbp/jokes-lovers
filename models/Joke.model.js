@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const postSchema = new Schema(
+const jokeSchema = new Schema(
   {
     author: { type: Schema.Types.ObjectId, ref: "User" },
     content: String,
@@ -11,6 +11,6 @@ const postSchema = new Schema(
   }
 );
 
-const Post = model("Post", postSchema);
+const Joke = model("Joke", jokeSchema);
 
-module.exports = Post;
+module.exports = Joke;

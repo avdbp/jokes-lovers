@@ -1,38 +1,66 @@
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
 
+const mongoose = require("mongoose");
 
-router.get('/chiste-random', (req, res, next) => {
-   
-    res.render("jokes/chiste-random");
-  
+
+const User = require("../models/User.model");
+const Joke = require("../models/Joke.model");
+const Comment = require("../models/Comment.model");
+
+router.get("/create-joke", (req, res, next) => {
+    User.find()
+      .then((dbUsers) => {
+        res.render("jokes/create-joke", { dbUsers });
+      })
+      .catch((err) => next(err));
   });
+  
+  router.post("/create", (req, res, next) => {
+    let { author, content, comments } = req.body;
+  
+    Joke.create({ author, content, comments })
+      .then((newJoke) => {
+        return User.findByIdAndUpdate(
+          author,
+          { $push: { jokes: newJoke._id } },
+          { new: true }
+        );
+      })
+      .then((response) => {
+        res.send(response);
+      })
+      .catch((err) => next(err));
+  });
+  
 
-// const dotenv = require('dotenv');
-// dotenv.config();
-// const apiKey = process.env.APIKEY_AI_SECRET;
 
-// router.get('/chiste-random', (req, res, next) => {
-//     const prompt = "Genera un chiste en español.";
 
-//     axios.post('https://api.openai.com/v1/chat/completions', {
-//         prompt: prompt,
-//         max_tokens: 50,
-//     }, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${apiKey}`
-//         }
-//     })
-//     .then(response => {
-//         const chiste = response.data.choices[0].text.trim();
-//         res.render('/jokes/chiste-random', { chiste }); 
-//     })
-//     .catch(error => {
-//         console.error(error);
-//         res.status(500).json({ error: 'Error al generar el chiste.' });
-//     });
-// });
+
+  router.get("/jokes-list", (req, res, next) => {
+    Joke.find()
+      .populate("author")
+      .then((jokes) => {
+        res.render("jokes/jokes-list", { jokes });
+      })
+      .catch((err) => next(err));
+  });
+  
+  router.get("/:idJoke", (req, res, next) => {
+    Joke.findById(req.params.idJoke)
+      .populate("author comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          model: "User",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        res.render("jokes/joke-details", response);
+      })
+      .catch((err) => next(err));
+  });
 
 module.exports = router;

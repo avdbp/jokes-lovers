@@ -33,15 +33,15 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
 
-const viewsRoutes = require('./routes/jokes.routes');
-app.use('/jokes', viewsRoutes);
+const jokesApiRoutes = require('./routes/jokesApi.routes');
+app.use('/jokes', jokesApiRoutes);
+
+const jokesRoutes = require('./routes/jokes.routes');
+app.use('/jokes', jokesRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
-app.use((req, res, next) => {
-    res.locals.user = req.session.currentUser; // Asegúrate de que currentUser esté configurado después del inicio de sesión
-    next();
-  });
+
 
 module.exports = app;

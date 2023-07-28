@@ -5,7 +5,8 @@ const hbs = require('hbs');
 
 /* GET home page */
 router.get("/", (req, res, next) => {
-  res.render("index");
+  const currentUser = req.session.currentUser || null;
+  res.render("index", { user: currentUser });
 });
 
 module.exports = router;
