@@ -16,23 +16,26 @@
   <body>
     <header class="header-bar">
     <div class="bar-left" >
+      
           <a  href="/">Inicio</a>
+          {{#if user}}
           <a  href="/jokes/chiste-random">Chiste Random</a>
           <a  href="/jokes/create-joke">Publica un Chiste</a>
           <a  href="/jokes/jokes-list">Chistes Publicados</a>
-
+          {{/if}}
 
     </div>
-    <div class="bar-right" >
+    <div class="bar-right">
+    {{#if user}}
+      <!-- Mostrar botones cuando la sesión está abierta -->
+      <p id="log-status " > {{user.name }}  is Logged in</p>
+      <a href="/auth/logout">Cierra Sesión</a>
+    {{else}}
+      <!-- Mostrar botones cuando la sesión está cerrada -->
       <a href="/auth/signup">Registrate</a>
       <a href="/auth/login">Login</a>
-      <p id="log-status">{{#if user}}
-    {{user.username}} Logged in
-  {{else}}
-    Invitado
-  {{/if}}</p>
-      <a href="/auth/logout">Cierra Sesión</a>
-    </div>
+    {{/if}}
+  </div>
     </header>
     {{{body}}}
 

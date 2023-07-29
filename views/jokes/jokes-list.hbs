@@ -4,17 +4,16 @@
 
 <ul>
   {{#each jokes}}
+    <div>
+      CHISTE<br/>
+      {{this.content}}<br/>
+      <a href="/jokes/{{this._id}}">Comentar</a>
+    </div>
 
-  <li>
-    {{this.content}}
-  </li>
-
-    <li>
-      {{this.author.username}}
-      {{this.author.email}}
-      {{this.author.name}}
-
-      <a href="/jokes/{{this._id}}">Read more</a>
-    </li>
+    <div>
+      AUTOR<br/>
+      Usuario: {{this.author.username}}<br/>
+      Nombre: {{this.author.name}}
+    </div><br/>
   {{/each}}
 </ul>

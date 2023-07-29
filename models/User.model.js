@@ -26,6 +26,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+
+    jokes: [{ type: Schema.Types.ObjectId, ref: "Joke" }]
+  
+
+
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

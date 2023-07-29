@@ -8,36 +8,44 @@ const User = require("../models/User.model");
 const Joke = require("../models/Joke.model");
 const Comment = require("../models/Comment.model");
 
-router.get("/create-joke", (req, res, next) => {
+
+const isLoggedOut = require("../middleware/isLoggedOut");
+const isLoggedIn = require("../middleware/isLoggedIn");
+
+
+router.get("/create-joke", isLoggedIn, (req, res, next) => {
+  const currentUser = req.session.currentUser;
     User.find()
       .then((dbUsers) => {
-        res.render("jokes/create-joke", { dbUsers });
+        res.render("jokes/create-joke", { dbUsers, user: currentUser });
       })
+      
       .catch((err) => next(err));
   });
   
-  router.post("/create", (req, res, next) => {
-    let { author, content, comments } = req.body;
-  
-    Joke.create({ author, content, comments })
+  router.post("/create", isLoggedIn, (req, res, next) => {
+    const currentUser = req.session.currentUser;
+    let { content } = req.body;
+
+    Joke.create({ content, author: currentUser })
       .then((newJoke) => {
         return User.findByIdAndUpdate(
-          author,
+          currentUser._id,
           { $push: { jokes: newJoke._id } },
           { new: true }
         );
       })
-      .then((response) => {
-        res.send(response);
+      .then((response)  => {
+        console.log(response);
+        res.redirect("/jokes/jokes-list");
       })
       .catch((err) => next(err));
   });
-  
 
 
+  router.get("/jokes-list", isLoggedIn, (req, res, next) => {
+    const currentUser = req.session.currentUser;
 
-
-  router.get("/jokes-list", (req, res, next) => {
     Joke.find()
       .populate("author")
       .then((jokes) => {
@@ -45,9 +53,17 @@ router.get("/create-joke", (req, res, next) => {
       })
       .catch((err) => next(err));
   });
+
+
   
-  router.get("/:idJoke", (req, res, next) => {
-    Joke.findById(req.params.idJoke)
+  
+  
+  router.get("/:id", isLoggedIn, (req, res, next) => {
+    const currentUser = req.session.currentUser;
+
+    const jokeid = req.params.id;
+
+    Joke.findById(jokeid)
       .populate("author comments")
       .populate({
         path: "comments",
@@ -62,5 +78,10 @@ router.get("/create-joke", (req, res, next) => {
       })
       .catch((err) => next(err));
   });
+
+
+  
+
+
 
 module.exports = router;

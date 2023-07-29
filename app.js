@@ -39,6 +39,7 @@ app.use('/jokes', jokesApiRoutes);
 const jokesRoutes = require('./routes/jokes.routes');
 app.use('/jokes', jokesRoutes);
 
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
