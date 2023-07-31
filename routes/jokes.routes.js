@@ -49,79 +49,37 @@ router.get("/create-joke", isLoggedIn, (req, res, next) => {
     Joke.find()
       .populate("author")
       .then((jokes) => {
-        res.render("jokes/jokes-list", { jokes, user: currentUser });
+        res.render("jokes/jokes-list", { jokes });
       })
       .catch((err) => next(err));
   });
 
 
+  
+  
   
   router.get("/:id", isLoggedIn, (req, res, next) => {
-  const jokeId = req.params.id;
-
-  Joke.findById(jokeId)
-    .populate("author comments")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "author",
-        model: "User",
-      },
-    })
-    .then((joke) => {
-      res.render("jokes/joke-details", {
-        content: joke.content,
-        author: joke.author,
-        comments: joke.comments,
-      });
-    })
-    .catch((err) => next(err));
-});
-
-
-
-
-  // router.post("/create/comment", isLoggedIn, (req, res, next) => {
-  //   const currentUser = req.session.currentUser;
-  //   let { content } = req.body;
-
-  //   Comment.create({ content})
-  //     .then((newComment) => {
-  //       return User.findByIdAndUpdate(
-  //         currentUser._id,
-  //         { $push: { comment: newComment._id }},
-  //         { new: true }
-  //       );
-        
-  //     })
-      
-  //     .then((response)  => {
-  //       console.log(response);
-  //       res.redirect("/jokes/joke-details",);
-  //     })
-  //     .catch((err) => next(err));
-  // });
-
-
-  router.post("/create/comment", isLoggedIn, (req, res, next) => {
     const currentUser = req.session.currentUser;
-    const { content } = req.body;
-    const jokeId = req.body.d; // Assuming you have a hidden input field with the jokeId in your form
-  
-    Comment.create({ content, author: currentUser, joke: jokeId })
-      .then((newComment) => {
-        return Joke.findByIdAndUpdate(
-          jokeId,
-          { $push: { comments: newComment._id } },
-          { new: true }
-        );
+
+    const jokeid = req.params.id;
+
+    Joke.findById(jokeid)
+      .populate("author comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          model: "User",
+        },
       })
-      .then((updatedJoke) => {
-        console.log("Updated Joke:", updatedJoke);
-        res.redirect("/jokes/joke-details");
+      .then((response) => {
+        console.log(response);
+        res.render("jokes/joke-details", response);
       })
       .catch((err) => next(err));
   });
+
+
   
 
 

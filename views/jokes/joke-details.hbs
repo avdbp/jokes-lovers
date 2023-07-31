@@ -1,4 +1,5 @@
-<!-- joke-details.hbs -->
+{{! posts/details.hbs }}
+
 <h2>Detalles del Chiste</h2>
 <div>
   {{content}}
@@ -13,26 +14,37 @@
 {{/unless}}
 
 {{#each comments}}
-  <!-- Mostrar los comentarios -->
-  <h3>Comentarios:</h3>
-  <ul>
+<!-- Mostrar los comentarios -->
+<h3>Comentarios:</h3>
+<ul>
+  {{#each joke.comments}}
     <li>{{this.content}} - {{this.author.name}}</li>
-  </ul>
+  {{/each}}
+</ul>
+  <p><b>{{this.author.username}}:</b> {{this.content}}</p>
 {{/each}}
 
 <hr />
 
 <h3>Add comment</h3>
 
-<form action="/jokes/create/comment" method="post">
-  <!-- Campo oculto para el ID del chiste -->
-  <input type="hidden" name="jokeId" value="{{_id}}">
+<form action="/jokes/{{_id}}" method="post">
+  <!-- Resto del formulario -->
+
   <label>
-   <p> {{author.username }}: </p> 
+    Your username:
+    <input type="text" name="author" />
   </label>
+
+  <input type="text" name="jokeAuthor" value="{{author.username}}" hidden />
   <textarea name="content" cols="30" rows="2"></textarea>
+
   <button type="submit">Comment</button>
 </form>
 
 <br />
-<a href="/jokes/{{author._id}}">See all {{author.username}}'s jokes</a>
+{{#each author.name}}
+<a href="/jokes/{{author._id}}">See all {{this.author.username}}'s jokes </a>
+{{/each}}
+
+
