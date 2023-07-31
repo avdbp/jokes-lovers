@@ -27,8 +27,7 @@ const userSchema = new Schema(
       required: true,
     },
 
-    jokes: [{ type: Schema.Types.ObjectId, ref: "Joke" }]
-  
+    jokes: [{ type: Schema.Types.ObjectId, ref: "Joke" }],  
 
 
   },
