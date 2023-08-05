@@ -1,50 +1,42 @@
-{{! posts/details.hbs }}
+<!-- posts/details.hbs -->
 
 <h2>Detalles del Chiste</h2>
 <div>
-  {{content}}
+  {{ this.content }}
   <br />
   - by
-  {{author.username}}
+  {{ joke.author.name }} <!-- Corregir aquí -->
   ♥️
 </div>
 
-{{#unless comments}}
+{{#unless joke.comments}}
   <p>No comments yet!</p>
 {{/unless}}
 
-{{#each comments}}
-<!-- Mostrar los comentarios -->
-<h3>Comentarios:</h3>
-<ul>
-  {{#each joke.comments}}
-    <li>{{this.content}} - {{this.author.name}}</li>
-  {{/each}}
-</ul>
-  <p><b>{{this.author.username}}:</b> {{this.content}}</p>
+{{#each joke.comments}}
+  <!-- Mostrar los comentarios -->
+  <h3>Comentarios:</h3>
+  <ul>
+    <li>{{ this.content }} - {{ this.author.name }}</li> <!-- Corregir aquí -->
+  </ul>
 {{/each}}
 
 <hr />
 
 <h3>Add comment</h3>
 
-<form action="/jokes/{{_id}}" method="post">
+<form action="/jokes/{{ joke._id }}" method="post"> <!-- Corregir aquí -->
   <!-- Resto del formulario -->
 
   <label>
-    Your username:
-    <input type="text" name="author" />
+    {{ currentUser.username }} <!-- Mostrar el nombre del usuario logueado -->
   </label>
 
-  <input type="text" name="jokeAuthor" value="{{author.username}}" hidden />
+  <input type="text" name="author" value="{{ currentUser.username }}" hidden /> <!-- Corregir aquí -->
   <textarea name="content" cols="30" rows="2"></textarea>
 
   <button type="submit">Comment</button>
 </form>
 
 <br />
-{{#each author.name}}
-<a href="/jokes/{{author._id}}">See all {{this.author.username}}'s jokes </a>
-{{/each}}
-
-
+<a href="/jokes/{{ currentUser._id }}">See all {{ currentUser.username }}'s jokes</a>

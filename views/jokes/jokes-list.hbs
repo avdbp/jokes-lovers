@@ -1,19 +1,36 @@
-{{! posts/list.hbs }}
-
-<h2>Chistes Publicados</h2>
-
-<ul>
-  {{#each jokes}}
-    <div>
-      CHISTE<br/>
-      {{this.content}}<br/>
-      <a href="/jokes/{{this._id}}">Comentar</a>
-    </div>
-
-    <div>
-      AUTOR<br/>
-      Usuario: {{this.author.username}}<br/>
-      Nombre: {{this.author.name}}
-    </div><br/>
-  {{/each}}
-</ul>
+<!-- views/jokes/jokes-list.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jokes List</title>
+</head>
+<body>
+    <h1>Jokes List</h1>
+    <ul>
+        {{#each jokes}}
+            <li>
+                <strong>Author:</strong> {{this.author.username}}
+                <br>
+                <strong>Content:</strong> {{this.content}}
+                <br>
+                <strong>Comments:</strong>
+                <ul>
+                    {{#each this.comments}}
+                        <li>
+                            <strong>{{this.author.username}}</strong>: {{this.content}}
+                        </li>
+                    {{/each}}
+                </ul>
+                <form action="/jokes/{{this._id}}/comment" method="POST">
+                    <label for="content">Comment:</label>
+                    <textarea name="content" id="content" required></textarea>
+                    <button type="submit">Add Comment</button>
+                </form>
+                <hr>
+            </li>
+        {{/each}}
+    </ul>
+</body>
+</html>

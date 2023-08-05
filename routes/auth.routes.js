@@ -18,6 +18,9 @@ const Comment = require("../models/Comment.model");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
+const isAdmin = false;
+
+
 // GET /auth/signup
 router.get("/signup", isLoggedOut, (req, res, next) => {
   res.render("auth/signup");
@@ -52,6 +55,7 @@ router.post("/signup", isLoggedOut, (req, res, next) => {
     return;
   }
 
+ 
   //   ! This regular expression checks password for special characters and minimum length
   
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
@@ -71,7 +75,7 @@ router.post("/signup", isLoggedOut, (req, res, next) => {
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => {
       // Create a user and save it in the database
-      return User.create({ name, username, email, password: hashedPassword });
+      return User.create({ name, username, email, isAdmin, password: hashedPassword });
     })
     .then((user) => {
       res.redirect("/auth/login");

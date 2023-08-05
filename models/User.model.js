@@ -27,13 +27,17 @@ const userSchema = new Schema(
       required: true,
     },
 
-    jokes: [{ type: Schema.Types.ObjectId, ref: "Joke" }]
+    jokes: [{ type: Schema.Types.ObjectId, ref: "Joke" }],
+
+    isAdmin: {
+      type: Boolean,
+      default:false,
+    },
   
 
 
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );

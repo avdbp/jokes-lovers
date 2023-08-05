@@ -39,9 +39,6 @@ app.use('/jokes', jokesApiRoutes);
 const jokesRoutes = require('./routes/jokes.routes');
 app.use('/jokes', jokesRoutes);
 
-const adminRoutes = require('./routes/admin.routes');
-app.use('/admin', adminRoutes);
-
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

@@ -23,6 +23,9 @@
           <a  href="/jokes/create-joke">Publica un Chiste</a>
           <a  href="/jokes/jokes-list">Chistes Publicados</a>
           {{/if}}
+           {{#if user.isAdmin}}
+          <a  href="/admin/admin-dashboard">Admin</a>
+          {{/if}}
 
     </div>
     <div class="bar-right">
@@ -32,6 +35,7 @@
       <a href="/auth/logout">Cierra Sesión</a>
     {{else}}
       <!-- Mostrar botones cuando la sesión está cerrada -->
+      <a  href="/jokes/jokes-list">Chistes Publicados</a>
       <a href="/auth/signup">Registrate</a>
       <a href="/auth/login">Login</a>
     {{/if}}

@@ -2,12 +2,15 @@ const { Schema, model } = require("mongoose");
 
 const jokeSchema = new Schema(
   {
+    content: {
+      type: String,
+      required: true,
+    },
     author: { type: Schema.Types.ObjectId, ref: "User" },
-    content: String,
-    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

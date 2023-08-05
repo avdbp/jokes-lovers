@@ -1,16 +1,17 @@
-
-<h2>Create a new post</h2>
-
-<form action="/jokes/create" method="POST">
-
-  <label>
-    Content:
-    <textarea type="text" name="content"> </textarea>
-  </label>
-  <br />
-
-  
-  <br />
-
-  <button type="submit"> Create the post </button>
-</form>
+<!-- views/jokes/create-joke.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Joke</title>
+</head>
+<body>
+    <h1>Create Joke</h1>
+    <form action="/jokes/create" method="POST">
+        <label for="content">Joke Content:</label>
+        <textarea name="content" id="content" required></textarea>
+        <button type="submit">Create Joke</button>
+    </form>
+</body>
+</html>
