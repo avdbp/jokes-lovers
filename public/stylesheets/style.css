@@ -22,35 +22,36 @@ h1, h2 {
   font-size: 3rem;
 }
 
+.nav-bar-container {
+  display: flex;
+  justify-content: space-between;
 
+}
 
+.login-set {
+  text-align: right;
+  margin-bottom: 5px;
+}
 
+.header-card {
+  padding: 15px;
+  background-color: rgba(240, 174, 31, 0.8);
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.body-card {
+  padding: 15px;
+  background-color: rgba(244, 244, 242, 0.9);
+  border-radius: 10px;
 
+}
+
+ 
 .nav-link {
   text-align: right;
   color: #101010;
 }
 
-.bar-left {
-  display: flex;
-  align-items: center;
-  margin-left: 30px;
-}
-
-.bar-right {
-  display: flex;
-  align-items: center;
-}
-
-
-.bar-right  p {
-  background-color: #101010;
-  border-radius: 5px;
-  padding: 5px 15px;
-  color: #ffffff;
-  margin-right: 30px;
-  
-}
 #log-status {
   margin-top: 50px;
   padding-top: 50px;
@@ -67,8 +68,6 @@ h1, h2 {
   font-size: 60px;
 }
 
-
-
 .navbar {
   background-color: rgb(111, 5, 5, 0.8);
   border-radius: 10px;
@@ -81,12 +80,15 @@ h1, h2 {
 }
 .header-card {
   padding: 15px;
-  background-color: rgba(87, 169, 210, 0.8);
+  background-color: rgba(240, 174, 31, 0.8);
   border-radius: 10px;
+  margin-bottom: 10px;
+
+
 }
 .body-card {
   padding: 15px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(244, 244, 242, 0.9);
   border-radius: 10px;
 
 }
@@ -96,29 +98,15 @@ h1, h2 {
  border-radius: 10px;
 
 
+} 
+.navbar-toggler .navbar-toggler-icon {
+background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+.navbar .navbar-toggler {
+  line-height: 1;
+  color: #ffffff;
 }
 
-@media (max-width: 750px) {
-  .navbar-collapse {
-    background-color: red; /* Color de fondo para el menú desplegable */
-    border-radius: 10px; /* Bordes redondeados */
-    position: absolute; /* Posición absoluta para que cubra todo el ancho */
-    top: 70px; /* Espacio desde arriba */
-    left: 0; /* Alineado a la izquierda */
-    width: 100%; /* Ancho completo */
-    display: none; /* Por defecto oculto */
-  }
 
-  .navbar-toggler {
-    display: block; /* Mostrar el botón de hamburguesa */
-  }
 
-  .navbar-toggler-icon {
-    background-color: white; /* Color del icono */
-  }
 
-  .navbar-toggler:focus + .navbar-collapse,
-  .navbar-collapse:focus-within {
-    display: block; /* Mostrar el menú cuando se hace clic en el botón o en algún enlace */
-  }
-}

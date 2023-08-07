@@ -5,34 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{appTitle}}</title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
-
-  <nav class="navbar navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand" href="/">Inicio</a>
+<div class="ml-auto login-set">
       {{#if user}}
-        {{#if user.isAdmin}}
-          <a class="navbar-brand" href="/admin/admin-dashboard">Admin Dashboard</a>
-        {{/if}}
-        <a class="navbar-brand" href="/jokes/create-joke">Publica un Chiste</a>
-        <a class="navbar-brand" href="/jokes/jokes-list">Chistes Publicados</a>
-      {{/if}}
-
-      <!-- Botón de hamburguesa -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <!-- Menú desplegable -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-
-
-    </div>
-    <div class="ml-auto">
-      {{#if user}}
-        <a class="btn btn-light text-dark" > {{user.name }}  is Logged-in</a>
+        <a class="btn btn-dark text-light" > {{user.name }}  is Logged-in</a>
         <a class="btn btn-warning text-dark" href="/auth/logout">Cerrar Sesión</a>
         
       {{else}}
@@ -42,15 +19,36 @@
         
       {{/if}}
     </div>
-  </nav>
+  <nav class="navbar navbar-expand-lg nav-bar-container bg-danger">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="navbar-brand" href="/">Inicio</a>
+      {{#if user}}
+        {{#if user.isAdmin}}
+          <a class="navbar-brand" href="/admin/admin-dashboard">Admin Dashboard</a>
+        {{/if}}
+        <a class="navbar-brand" href="/jokes/create-joke">Publica un Chiste</a>
+        <a class="navbar-brand" href="/jokes/jokes-list">Chistes Publicados</a>
+      {{/if}}
+      </div>
+  
+      </div>
+    </div>
+  </div>
+</nav>
+
 
   <div class="container mt-5">
+
+
     {{{body}}}
   </div>
 
   <script src="/js/script.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 </body>
 </html>

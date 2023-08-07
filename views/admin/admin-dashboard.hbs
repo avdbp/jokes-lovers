@@ -4,14 +4,14 @@
       <div class="header-card">
         <h2>Panel de Administrador</h2>
       </div>
-      <ul class="list-group body-card">
+      <ul class="list-group-dark body-card">
         {{#each users}}
           <li class="list-group-item">
             <h4>{{this.name}}</h4>
             <p>Username: {{this.username}}</p>
             <p>Email: {{this.email}}</p>
             <p>Tipo de Usuario (Admin): {{this.isAdmin}}</p>
-            <a href="/admin/users/{{this._id}}/edit" class="btn btn-primary">Editar</a>
+            <a href="/admin/users/{{this._id}}/edit" class="btn btn-warning">Editar Usuario</a>
             <form action="/admin/users/{{this._id}}/delete" method="POST" class="d-inline">
               <button type="submit" class="btn btn-danger">Borrar Usuario</button>
             </form>
