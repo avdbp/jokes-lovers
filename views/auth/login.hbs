@@ -1,24 +1,25 @@
-<div id="login-form">
-  <h2>Log In</h2>
-  <form action="/auth/login" method="POST">
-
-    <label> Username
-      <input type="text" name="username" placeholder="Your username" />
-    </label>
-
-
-    <label> Password
-      <input type="password" name="password" placeholder="Your password" />
-    </label>
-
-    <button type="submit">Log In</button>
-
-
-    {{#if errorMessage}}
-      <p class="error">{{errorMessage}}</p>
-    {{/if}}
-  </form>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Log In</h2>
+      </div>
+      <div class="body-card">
+        <form action="/auth/login" method="POST">
+          <label for="username">Username:</label>
+          <input type="text" class="form-control" name="username" id="username" placeholder="Your username" required>
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" name="password" id="password" placeholder="Your password" required>
+          <button type="submit" class="btn btn-warning" style="margin-top: 10px;">Log In</button><br/>
+          <a href="/auth/signup">Registrate ahora si aún no lo has hecho</a>
+          {{#if errorMessage}}
+            <p class="error">{{errorMessage}}</p>
+          {{/if}}
+        </form>
+        {{#if byeMessage}}
+          {{byeMessage}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
 </div>
-{{#if byeMessage}}
-    {{byeMessage}}
-{{/if}}

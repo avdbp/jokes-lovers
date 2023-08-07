@@ -1,1 +1,46 @@
-hola
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Panel de Administrador</h2>
+      </div>
+      <ul class="list-group body-card">
+        {{#each users}}
+          <li class="list-group-item">
+            <h4>{{this.name}}</h4>
+            <p>Username: {{this.username}}</p>
+            <p>Email: {{this.email}}</p>
+            <p>Tipo de Usuario (Admin): {{this.isAdmin}}</p>
+            <a href="/admin/users/{{this._id}}/edit" class="btn btn-primary">Editar</a>
+            <form action="/admin/users/{{this._id}}/delete" method="POST" class="d-inline">
+              <button type="submit" class="btn btn-danger">Borrar Usuario</button>
+            </form>
+            <h5 class="mt-3">Publicaciones:</h5>
+            <ul class="list-group">
+              {{#each this.jokes}}
+                <li class="list-group-item">
+                  {{this.content}}
+                  <form action="/admin/jokes/{{this._id}}/delete" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Borrar Chiste</button>
+                  </form>
+                  <h6 class="mt-3">Comentarios:</h6>
+                  <ul class="list-group">
+                    {{#each this.comments}}
+                      <li class="list-group-item">
+                        <p>Por: {{this.author.username}}</p>
+                        <p>{{this.content}}</p>
+                        <form action="/admin/comments/{{this._id}}/delete" method="POST" class="d-inline">
+                          <button type="submit" class="btn btn-danger">Borrar Comentario</button>
+                        </form>
+                      </li>
+                    {{/each}}
+                  </ul>
+                </li>
+              {{/each}}
+            </ul>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>

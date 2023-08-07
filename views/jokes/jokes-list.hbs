@@ -1,36 +1,28 @@
-<!-- views/jokes/jokes-list.hbs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jokes List</title>
-</head>
-<body>
-    <h1>Jokes List</h1>
-    <ul>
-        {{#each jokes}}
-            <li>
-                <strong>Author:</strong> {{this.author.username}}
-                <br>
-                <strong>Content:</strong> {{this.content}}
-                <br>
-                <strong>Comments:</strong>
-                <ul>
-                    {{#each this.comments}}
-                        <li>
-                            <strong>{{this.author.username}}</strong>: {{this.content}}
-                        </li>
-                    {{/each}}
-                </ul>
-                <form action="/jokes/{{this._id}}/comment" method="POST">
-                    <label for="content">Comment:</label>
-                    <textarea name="content" id="content" required></textarea>
-                    <button type="submit">Add Comment</button>
-                </form>
-                <hr>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Lista de Chistes Publicados</h2>
+      </div>
+      <div class="body-card">
+        <ul class="list-group">
+          {{#each jokes}}
+            <li class="list-group-item">
+              <h5 class="mb-2">Autor: {{this.author.username}}</h5>
+              <p class="mb-2"><strong>Contenido:</strong> {{this.content}}</p>
+              <h6 class="mb-2">Comentarios:</h6>
+              <ul class="list-group">
+                {{#each this.comments}}
+                  <li class="list-group-item">
+                    <strong>{{this.author.username}}</strong>: {{this.content}}
+                  </li>
+                {{/each}}
+              </ul>
+              <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Ver Detalles y Comentar</a>
             </li>
-        {{/each}}
-    </ul>
-</body>
-</html>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,26 @@
-<h1>{{appTitle}} 🚀</h1>
-<p>Welcome Ironhacker!</p>
-
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Bienvenido a la Página de Inicio</h2>
+      </div>
+      <div class="body-card">
+        <p>¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
+        {{#if user}}
+          <p>Hola, {{user.name}}. ¡Disfruta explorando y publicando chistes!</p>
+          <a href="/jokes/create-joke" class="btn btn-warning btn-sm">Publica un Chiste</a>
+          <a href="/jokes/jokes-list" class="btn btn-warning btn-sm">Chistes Publicados</a>
+          {{#if user.isAdmin}}
+            <a href="/admin/admin-dashboard" class="btn btn-warning btn-sm">Admin Dashboard</a>
+          {{/if}}
+          <a href="/auth/logout" class="btn btn-danger btn-sm">Cerrar Sesión</a>
+        {{else}}
+          <p>Para disfrutar de todos los chistes y funciones, inicia sesión o regístrate.</p>
+          <a href="/auth/login" class="btn btn-warning btn-sm">Login</a>
+          <a href="/auth/signup" class="btn btn-warning btn-sm">Regístrate</a>
+          <a href="/jokes/jokes-list" class="btn btn-warning btn-sm">Chistes Publicados</a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

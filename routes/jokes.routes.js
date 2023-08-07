@@ -33,7 +33,7 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 
 
 // GET /jokes/jokes-list
-router.get("/jokes-list", isLoggedIn, (req, res, next) => {
+router.get("/jokes-list", (req, res, next) => {
 const currentUser = req.session.currentUser;
 
   Joke.find()
@@ -47,6 +47,25 @@ const currentUser = req.session.currentUser;
     })
     .catch((err) => next(err));
 });
+
+
+// GET /jokes/:id
+router.get("/:id", isLoggedIn, (req, res, next) => {
+  const currentUser = req.session.currentUser;
+  const jokeId = req.params.id;
+
+  Joke.findById(jokeId)
+    .populate("author")
+    .populate({
+      path: "comments",
+      populate: { path: "author" },
+    })
+    .then((joke) => {
+      res.render("jokes/joke-details", { joke, user: currentUser });
+    })
+    .catch((err) => next(err));
+});
+
 
 // POST /jokes/:id/comment
 router.post("/:id/comment", isLoggedIn, (req, res, next) => {

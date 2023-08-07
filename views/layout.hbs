@@ -3,47 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>{{appTitle}}</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{appTitle}}</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-  </head>
+</head>
 
-  <body>
-    <header class="header-bar">
-    <div class="bar-left" >
-      
-          <a  href="/">Inicio</a>
-          {{#if user}}
-          <a  href="/jokes/chiste-random">Chiste Random</a>
-          <a  href="/jokes/create-joke">Publica un Chiste</a>
-          <a  href="/jokes/jokes-list">Chistes Publicados</a>
-          {{/if}}
-           {{#if user.isAdmin}}
-          <a  href="/admin/admin-dashboard">Admin</a>
-          {{/if}}
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">Inicio</a>
+      {{#if user}}
+        {{#if user.isAdmin}}
+          <a class="navbar-brand" href="/admin/admin-dashboard">Admin Dashboard</a>
+        {{/if}}
+        <a class="navbar-brand" href="/jokes/create-joke">Publica un Chiste</a>
+        <a class="navbar-brand" href="/jokes/jokes-list">Chistes Publicados</a>
+      {{/if}}
+
+      <!-- Botón de hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Menú desplegable -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+
 
     </div>
-    <div class="bar-right">
-    {{#if user}}
-      <!-- Mostrar botones cuando la sesión está abierta -->
-      <p id="log-status " > {{user.name }}  is Logged in</p>
-      <a href="/auth/logout">Cierra Sesión</a>
-    {{else}}
-      <!-- Mostrar botones cuando la sesión está cerrada -->
-      <a  href="/jokes/jokes-list">Chistes Publicados</a>
-      <a href="/auth/signup">Registrate</a>
-      <a href="/auth/login">Login</a>
-    {{/if}}
-  </div>
-    </header>
+    <div class="ml-auto">
+      {{#if user}}
+        <a class="btn btn-light text-dark" > {{user.name }}  is Logged-in</a>
+        <a class="btn btn-warning text-dark" href="/auth/logout">Cerrar Sesión</a>
+        
+      {{else}}
+        <a class="btn btn-light text-dark" href="/jokes/jokes-list">Chistes Publicados</a>
+        <a class="btn btn-warning text-dark" href="/auth/signup">Regístrate</a>
+        <a class="btn btn-warning text-dark" href="/auth/login">Login</a>
+        
+      {{/if}}
+    </div>
+  </nav>
+
+  <div class="container mt-5">
     {{{body}}}
+  </div>
 
-    <script src="/js/script.js"></script>
-  </body>
-
+  <script src="/js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>

@@ -1,33 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
 
 body {
-  background-image: url(../images/haha.jpg);
+  background-image: url(../images/haha.jpg) !important;
   padding: 50px;
-  font-family: 'Carter One', cursive;}
-  
+  font-size:1.2rem!important ;
+}
 
 a {
   color: #00b7ff;
+  text-decoration: none;
+}
+
+a :hover {
+  color: #00b7ff;
+  text-decoration: none;
+}
+
+h1, h2 {
+  font-weight: bold;
+  margin-top: 50px;
+  font-size: 3rem;
 }
 
 
-.header-bar {
-  background-image: url(../images/psicodelic.png);
-  background-color: #a91111;
-  display: flex;
-  justify-content: space-between;
-  text-align: left;  height: 50px;
-  border-radius: 10px;
-}
 
 
 
-.header-bar a {
-display: flex;
-color: #f9f5f5;
-text-decoration: none;
-margin-right: 50px;
-align-items: center;
+.nav-link {
+  text-align: right;
+  color: #101010;
 }
 
 .bar-left {
@@ -41,9 +42,6 @@ align-items: center;
   align-items: center;
 }
 
-a:hover {
-  color: rgb(145, 205, 242);
-}
 
 .bar-right  p {
   background-color: #101010;
@@ -53,8 +51,74 @@ a:hover {
   margin-right: 30px;
   
 }
+#log-status {
+  margin-top: 50px;
+  padding-top: 50px;
+}
 
 .error {
   color: #a91111;
   font-size: 18px;
+}
+
+#titulo-vista {
+  text-align: center;
+  padding: 30px 30px;
+  font-size: 60px;
+}
+
+
+
+.navbar {
+  background-color: rgb(111, 5, 5, 0.8);
+  border-radius: 10px;
+}
+.navbar a {
+  color: white;
+}
+.navbar a:hover {
+  color: #ffd504;
+}
+.header-card {
+  padding: 15px;
+  background-color: rgba(87, 169, 210, 0.8);
+  border-radius: 10px;
+}
+.body-card {
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+
+}
+
+.list-group-item {
+ background-color: rgba(255, 255, 255, 0);
+ border-radius: 10px;
+
+
+}
+
+@media (max-width: 750px) {
+  .navbar-collapse {
+    background-color: red; /* Color de fondo para el menú desplegable */
+    border-radius: 10px; /* Bordes redondeados */
+    position: absolute; /* Posición absoluta para que cubra todo el ancho */
+    top: 70px; /* Espacio desde arriba */
+    left: 0; /* Alineado a la izquierda */
+    width: 100%; /* Ancho completo */
+    display: none; /* Por defecto oculto */
+  }
+
+  .navbar-toggler {
+    display: block; /* Mostrar el botón de hamburguesa */
+  }
+
+  .navbar-toggler-icon {
+    background-color: white; /* Color del icono */
+  }
+
+  .navbar-toggler:focus + .navbar-collapse,
+  .navbar-collapse:focus-within {
+    display: block; /* Mostrar el menú cuando se hace clic en el botón o en algún enlace */
+  }
 }

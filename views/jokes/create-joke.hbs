@@ -1,17 +1,18 @@
-<!-- views/jokes/create-joke.hbs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Joke</title>
-</head>
-<body>
-    <h1>Create Joke</h1>
-    <form action="/jokes/create" method="POST">
-        <label for="content">Joke Content:</label>
-        <textarea name="content" id="content" required></textarea>
-        <button type="submit">Create Joke</button>
-    </form>
-</body>
-</html>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Publicar un Chiste</h2>
+      </div>
+      <div class="body-card">
+        <form action="/jokes/create" method="POST">
+          <div class="form-group">
+            <label for="content">Contenido del Chiste:</label>
+            <textarea class="form-control" name="content" id="content" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-warning">Publicar Chiste</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,42 +1,29 @@
-<!-- posts/details.hbs -->
-
-<h2>Detalles del Chiste</h2>
-<div>
-  {{ this.content }}
-  <br />
-  - by
-  {{ joke.author.name }} <!-- Corregir aquí -->
-  ♥️
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Detalles del Chiste</h2>
+      </div>
+      <div class="body-card">
+        <p>Autor: {{joke.author.name}}</p>
+        <p>Contenido: {{joke.content}}</p>
+        <h5>Comentarios</h5>
+        <ul class="list-group">
+          {{#each joke.comments}}
+            <li class="list-group-item">
+              <p>Por: {{this.author.username}}</p>
+              <p>{{this.content}}</p>
+            </li>
+          {{/each}}
+        </ul>
+        <form action="/jokes/{{joke._id}}/comment" method="POST">
+          <div class="form-group">
+            <label for="content">Comentario:</label>
+            <textarea class="form-control" name="content" id="content" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-warning">Agregar Comentario</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-
-{{#unless joke.comments}}
-  <p>No comments yet!</p>
-{{/unless}}
-
-{{#each joke.comments}}
-  <!-- Mostrar los comentarios -->
-  <h3>Comentarios:</h3>
-  <ul>
-    <li>{{ this.content }} - {{ this.author.name }}</li> <!-- Corregir aquí -->
-  </ul>
-{{/each}}
-
-<hr />
-
-<h3>Add comment</h3>
-
-<form action="/jokes/{{ joke._id }}" method="post"> <!-- Corregir aquí -->
-  <!-- Resto del formulario -->
-
-  <label>
-    {{ currentUser.username }} <!-- Mostrar el nombre del usuario logueado -->
-  </label>
-
-  <input type="text" name="author" value="{{ currentUser.username }}" hidden /> <!-- Corregir aquí -->
-  <textarea name="content" cols="30" rows="2"></textarea>
-
-  <button type="submit">Comment</button>
-</form>
-
-<br />
-<a href="/jokes/{{ currentUser._id }}">See all {{ currentUser.username }}'s jokes</a>
