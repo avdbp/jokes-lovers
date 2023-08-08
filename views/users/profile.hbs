@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="header-card">
+        <h2>Mi Perfil</h2>
+      </div>
+      <div class="body-card">
+        <img src="{{user.avatar}}" alt="Avatar" class="rounded-circle img-fluid">
+        <h3>{{user.name}}</h3>
+        <p>Username: {{user.username}}</p>
+        <p>Email: {{user.email}}</p>
+      </div>
+      <a class="btn btn-primary" href="/users/edit-profile">Editar Perfil</a>
+    </div>
+    <div class="col-md-8">
+      <div class="header-card">
+        <h2>Mis Chistes</h2>
+      </div>
+      <div class="body-card">
+        {{#each user.jokes}}
+          <div class="mb-4">
+            <h3>{{title}}</h3>
+            <p>{{content}}</p>
+            <p><strong>Comentarios:</strong></p>
+            <ul>
+              {{#each comments}}
+                <li>
+                  {{this.content}}
+                    <form action="/jokes/{{../user.jokes._id}}/comment/{{this._id}}/delete" method="post">
+                      <button type="submit" class="btn btn-sm btn-danger">Borrar Comentario</button>
+                    </form>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
