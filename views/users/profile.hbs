@@ -5,12 +5,14 @@
         <h2>Mi Perfil</h2>
       </div>
       <div class="body-card">
-        <img src="{{user.avatar}}" alt="Avatar" class="rounded-circle img-fluid">
+        <div class="img-avatar">
+          <img src="{{user.avatarPath}}" alt="Avatar" class="rounded img-fluid" style="border: 5px solid #ffd504;">
+        </div>
         <h3>{{user.name}}</h3>
         <p>Username: {{user.username}}</p>
         <p>Email: {{user.email}}</p>
       </div>
-      <a class="btn btn-primary" href="/users/edit-profile">Editar Perfil</a>
+      <a class="btn btn-warning" href="/users/edit-profile">Editar Perfil</a>
     </div>
     <div class="col-md-8">
       <div class="header-card">
@@ -26,12 +28,12 @@
               {{#each comments}}
                 <li>
                   {{this.content}}
-                    <form action="/jokes/{{../user.jokes._id}}/comment/{{this._id}}/delete" method="post">
-                      <button type="submit" class="btn btn-sm btn-danger">Borrar Comentario</button>
-                    </form>
                 </li>
               {{/each}}
             </ul>
+            <form action="/users/profile/{{this._id}}/delete" method="post">
+              <button type="submit" class="btn btn-sm btn-danger">Borrar Chiste y Comentarios</button>
+            </form>
           </div>
         {{/each}}
       </div>

@@ -13,7 +13,7 @@
         <a class="btn btn-warning text-dark" href="/auth/logout">Cerrar Sesión</a>
         
       {{else}}
-        <a class="btn btn-light text-dark" href="/jokes/jokes-list">Chistes Publicados</a>
+        <a class="btn btn-danger text-light" href="/jokes/jokes-list">Chistes Publicados</a>
         <a class="btn btn-warning text-dark" href="/auth/signup">Regístrate</a>
         <a class="btn btn-warning text-dark" href="/auth/login">Login</a>
         
@@ -28,12 +28,13 @@
       <div class="navbar-nav">
         <a class="navbar-brand" href="/">Inicio</a>
       {{#if user}}
+        
+        <a class="navbar-brand" href="/users/profile">Perfil {{user.username}}</a>
+        <a class="navbar-brand" href="/jokes/create-joke">Publica un Chiste</a>
+        <a class="navbar-brand" href="/jokes/jokes-list">Chistes Publicados</a>
         {{#if user.isAdmin}}
           <a class="navbar-brand" href="/admin/admin-dashboard">Admin Dashboard</a>
         {{/if}}
-        <a class="navbar-brand" href="/users/profile">Perfil</a>
-        <a class="navbar-brand" href="/jokes/create-joke">Publica un Chiste</a>
-        <a class="navbar-brand" href="/jokes/jokes-list">Chistes Publicados</a>
       {{/if}}
       </div>
   
@@ -47,9 +48,33 @@
 
 
     {{{body}}}
-  </div>
 
+ 
+
+  
+{{!-- <script>
+  const laughSounds = [
+    "/sounds/risa1.mp3",
+    "/sounds/risa2.mp3",
+    "/sounds/risa3.mp3",
+    "/sounds/risa4.mp3",
+    "/sounds/risa5.mp3",
+    "/sounds/risa6.mp3",
+    "/sounds/risa7.mp3",
+    "/sounds/risa8.mp3",
+    "/sounds/risa9.mp3",
+  ];
+
+  const playButton = document.getElementById('playLaughSound');
+
+  playButton.addEventListener('click', () => {
+    const randomIndex = Math.floor(Math.random() * laughSounds.length);
+    const audio = new Audio(laughSounds[randomIndex]);
+    audio.play();
+  });
+  </script> --}}
   <script src="/js/script.js"></script>
+  <script src="../utils/risas.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 </body>
 </html>

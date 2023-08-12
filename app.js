@@ -9,6 +9,8 @@ require("./db");
 // https://www.npmjs.com/package/express
 const express = require("express");
 const axios = require('axios');
+const session = require('express-session')
+
 
 
 // Handles the handlebars

@@ -1,24 +1,34 @@
-dfwdfw
-
-{{!-- <div class="container mt-5">
+<div class="container mt-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h2>Edit Profile</h2>
-      <form action="/users/profile/edit" method="POST">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required>
+      <div class="header-card">
+        <h2>Edita tu Perfil</h2>
+      </div>
+      <div class="body-card d-flex align-items-center">
+        <form class="flex-grow-1" action="/users/edit-profile" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required>
+          </div>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" name="email" id="email" value="{{user.email}}" required>
+          </div>
+          <div class="mb-3">
+            <label for="avatar" class="form-label">Cambiar Imagen de Perfil:</label>
+            <input type="file" class="form-control-file d-none" name="avatar" id="avatar">
+            <label for="avatar" class="btn btn-danger btn-file-style">Seleccionar Archivo</label>
+          </div>
+          <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+        </form>
+        <div class="ml-4">
+          <img src="{{ user.avatarPath }}" alt="Avatar" class="rounded" style="border: 5px solid #ffd504;">
         </div>
-        <div class="form-group">
-          <label for="username">Username:</label>
-          <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" name="email" id="email" value="{{user.email}}" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-      </form>
+      </div>
     </div>
   </div>
-</div> --}}
+</div>

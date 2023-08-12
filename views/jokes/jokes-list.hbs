@@ -8,7 +8,10 @@
         <ul class="list-group">
           {{#each jokes}}
             <li class="list-group-item">
+              <div class="joke-list-user">
               <h5 class="mb-2">Autor: {{this.author.username}}</h5>
+              <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
+              </div>
               <p class="mb-2"><strong>Contenido:</strong> {{this.content}}</p>
               <h6 class="mb-2">Comentarios:</h6>
               <ul class="list-group">
@@ -26,3 +29,9 @@
     </div>
   </div>
 </div>
+<img
+    id="playLaughSound"
+    src="/images/botonRisa.png"
+    alt="Icono de risa"
+    class="laugh-icon"
+  > 

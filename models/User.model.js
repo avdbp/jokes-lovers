@@ -36,7 +36,7 @@ const userSchema = new Schema(
 
     avatarPath: { 
       type: String, 
-      default: 'default-avatar.png' 
+      default: '(/images/avatar.png' 
     }, 
   
 

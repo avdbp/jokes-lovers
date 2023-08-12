@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const session = require('express-session')
+
 
 
 // ℹ️ Handles password encryption
@@ -112,15 +114,6 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
     return;
   }
-
-  // Here we use the same logic as above
-  // - either length based parameters or we check the strength of a password
-  
-  // if (password.length < 6) {
-  //   return res.status(400).render("auth/login", {
-  //     errorMessage: "Your password needs to be at least 6 characters long.",
-  //   });
-  // }
 
   // Search the database for a user with the email submitted in the form
   User.findOne({ username })
