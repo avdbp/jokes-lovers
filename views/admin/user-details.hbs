@@ -1,0 +1,67 @@
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="header-card">
+        <h2>Detalles del Usuario</h2>
+      </div>
+      <div class="body-card">
+        <div class="body-card">
+  <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
+  <h3>{{user.name}}</h3>
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input type="text" class="form-control" id="name" name="name" value="{{user.name}}">
+    </div>
+    <div class="form-group">
+      <label for="username">Nombre de Usuario</label>
+      <input type="text" class="form-control" id="username" name="username" value="{{user.username}}">
+    </div>
+    <div class="form-group">
+      <label for="email">Correo Electrónico</label>
+      <input type="email" class="form-control" id="email" name="email" value="{{user.email}}">
+    </div>
+    <div class="form-group">
+      <label for="isAdmin">Es Admin</label>
+      <select class="form-control" id="isAdmin" name="isAdmin">
+        <option value="true" {{#if user.isAdmin}}selected{{/if}}>Sí</option>
+        <option value="false" {{#unless user.isAdmin}}selected{{/unless}}>No</option>
+      </select>
+    </div>
+    <form action="/admin/users/{{user._id}}/edit" method="POST">
+        <button type="submit" class="btn btn-warning" onclick="confirmSaveChanges() ">Guardar Cambios</button>
+  </form>
+    <form action="/admin/users/{{user._id}}/delete" method="POST" class="d-inline">
+        <button type="submit" class="btn btn-danger" onclick="confirmDeleteUser()">Borrar Usuario</button>
+    </form>
+</div>
+    
+      <h2 class="mt-3">Publicaciones:</h2>
+      <ul class="list-group">
+        {{#each formattedJokes}}
+          <li class="list-group-item">
+            {{this.content}}
+            <p>Fecha de Publicación: {{formattedCreatedAt}}</p>
+            <form action="/admin/jokes/{{_id}}/delete" method="POST" class="d-inline">
+              <button type="submit" class="btn btn-danger">Borrar Chiste</button>
+            </form>
+            <h6 class="mt-3">Comentarios:</h6>
+            <ul class="list-group">
+              {{#each comments}}
+                <li class="list-group-item">
+                  <p>Por: {{author.username}}</p>
+                  <p>{{content}}</p>
+                  <p>Fecha de Comentario: {{formattedCreatedAt}}</p>
+                  <form action="/admin/comments/{{_id}}/delete" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Borrar Comentario</button>
+                  </form>
+                </li>
+              {{/each}}
+            </ul>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
+

@@ -4,10 +4,8 @@
       <div class="header-card">
         <h2>Mi Perfil</h2>
       </div>
-      <div class="body-card">
-        <div class="img-avatar">
-          <img src="{{user.avatarPath}}" alt="Avatar" class="rounded img-fluid" style="border: 5px solid #ffd504;">
-        </div>
+      <div class="body-card2">
+        <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
         <h3>{{user.name}}</h3>
         <p>Username: {{user.username}}</p>
         <p>Email: {{user.email}}</p>
@@ -19,24 +17,35 @@
         <h2>Mis Chistes</h2>
       </div>
       <div class="body-card">
-        {{#each user.jokes}}
+        {{#each formattedJokes}}
           <div class="mb-4">
             <h3>{{title}}</h3>
             <p>{{content}}</p>
+            <p><strong>Fecha de Publicación:</strong> {{formattedCreatedAt}}</p>
+            <hr>
             <p><strong>Comentarios:</strong></p>
             <ul>
-              {{#each comments}}
-                <li>
-                  {{this.content}}
-                </li>
-              {{/each}}
-            </ul>
+            {{#each comments}}
+              <li>
+                <p>{{this.content}}</p><br/>
+                <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar2"></div>
+                <p><strong>Publicado por:</strong> {{this.author.username}}</p>
+                <p><strong>{{formattedCreatedAt}}</strong></p>
+              </li>
+              
+            {{else}}
+              <p>Este chiste no tiene comentarios hasta ahora</p>
+            {{/each}}
+          </ul>
+
             <form action="/users/profile/{{this._id}}/delete" method="post">
-              <button type="submit" class="btn btn-sm btn-danger">Borrar Chiste y Comentarios</button>
+              <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">Borrar Chiste y Comentarios</button>
             </form>
+            <hr>
           </div>
         {{/each}}
       </div>
     </div>
   </div>
 </div>
+

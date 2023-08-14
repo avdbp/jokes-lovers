@@ -6,25 +6,29 @@
       </div>
       <div class="body-card">
         <div class="joke-list-user">
-          <p>Autor: {{joke.author.name}}</p>
-          <img src="{{joke.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
+          <p>{{joke.content}}</p>
+          <p>Publicado por: <strong>{{joke.author.username}}</strong></p>
+          <p>el {{formattedCreatedAt}}</p>
+          <div class="avatar" style="background-image: url({{ joke.author.avatarPath }})" alt="Avatar"></div>
         </div>
-        <p>Contenido: {{joke.content}}</p>
-        <h5>Comentarios</h5>
+        
         <ul class="list-group">
-          {{#each joke.comments}}
+          {{#each formattedComments}}
             <li class="list-group-item">
+              <p><strong>Comentario: </strong> {{this.content}}</p>
               <div class="joke-list-user">
-                <p>Por: {{this.author.username}}</p>
-                <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
-            </div>
-              <p>{{this.content}}</p>
+                <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar2"></div>
+                <p>Publicado por: <strong>{{this.author.username}}</strong></p>
+                <p>el {{this.formattedCreatedAt}}</stong></p>
+              </div>
             </li>
+            {{else}}
+              <p>Este chiste no tiene comentarios hasta ahora</p>
           {{/each}}
         </ul>
         <form action="/jokes/{{joke._id}}/comment" method="POST">
           <div class="form-group">
-            <label for="content">Comentario:</label>
+            <label for="content">Deja tu comentario:</label>
             <textarea class="form-control" name="content" id="content" required></textarea>
           </div>
           <button type="submit" class="btn btn-warning">Agregar Comentario</button>

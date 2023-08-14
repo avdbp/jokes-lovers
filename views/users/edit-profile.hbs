@@ -26,8 +26,12 @@
           <button type="submit" class="btn btn-warning">Guardar Cambios</button>
         </form>
         <div class="ml-4">
-          <img src="{{ user.avatarPath }}" alt="Avatar" class="rounded" style="border: 5px solid #ffd504;">
-        </div>
+          <div class="body-card2">
+          <div class="avatar3" style="background-image: url({{user.avatarPath}})" alt="Avatar"></div>
+            {{#unless user.avatarPath}}
+              <div class="avatar3" style="background-image: url(images/avatar.png)" alt="Avatar"></div>
+            {{/unless}}
+        </div>        </div>
       </div>
     </div>
   </div>

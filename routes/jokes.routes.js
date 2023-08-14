@@ -4,6 +4,7 @@ const User = require("../models/User.model");
 const Joke = require("../models/Joke.model");
 const Comment = require("../models/Comment.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const moment = require("moment");
 
 // GET /jokes/create-joke
 router.get("/create-joke", isLoggedIn, (req, res, next) => {
@@ -34,7 +35,7 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 
 // GET /jokes/jokes-list
 router.get("/jokes-list", (req, res, next) => {
-const currentUser = req.session.currentUser;
+  const currentUser = req.session.currentUser;
 
   Joke.find()
     .populate("author")
@@ -42,11 +43,22 @@ const currentUser = req.session.currentUser;
       path: "comments",
       populate: { path: "author" },
     })
+    .sort({ createdAt: -1 }) // Ordenar por fecha de publicación descendente
     .then((jokes) => {
+      jokes = jokes.map((joke) => ({
+        ...joke.toObject(),
+        formattedCreatedAt: moment(joke.createdAt).format("LLL"),
+        comments: joke.comments.map((comment) => ({
+          ...comment.toObject(),
+          formattedCreatedAt: moment(comment.createdAt).format("LLL"),
+        })),
+      }));
+
       res.render("jokes/jokes-list", { jokes, user: currentUser });
     })
     .catch((err) => next(err));
 });
+
 
 
 // GET /jokes/:id
@@ -61,10 +73,23 @@ router.get("/:id", isLoggedIn, (req, res, next) => {
       populate: { path: "author" },
     })
     .then((joke) => {
-      res.render("jokes/joke-details", { joke, user: currentUser });
+      const formattedCreatedAt = moment(joke.createdAt).format("LLL");
+      const formattedComments = joke.comments.map((comment) => ({
+        ...comment.toObject(),
+        formattedCreatedAt: moment(comment.createdAt).format("LLL"),
+      }));
+
+      res.render("jokes/joke-details", {
+        joke,
+        formattedCreatedAt,
+        formattedComments,
+        user: currentUser,
+      });
     })
     .catch((err) => next(err));
 });
+
+
 
 
 // POST /jokes/:id/comment

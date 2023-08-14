@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const moment = require('moment');
+
 
 
 // Require the User model in order to interact with the database
@@ -12,6 +14,10 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /admin/admin-dashboard
+function formatDate(date) {
+  return moment(date).format("LLL");
+}
+
 router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
   if (req.session.currentUser) {
     User.find()
@@ -26,7 +32,18 @@ router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
         },
       })
       .then((users) => {
-        res.render("admin/admin-dashboard", { users, user: req.session.currentUser });
+        const formattedUsers = users.map((user) => ({
+          ...user.toObject(),
+          jokes: user.jokes.map((joke) => ({
+            ...joke.toObject(),
+            formattedCreatedAt: formatDate(joke.createdAt),
+            comments: joke.comments.map((comment) => ({
+              ...comment.toObject(),
+              formattedCreatedAt: formatDate(comment.createdAt),
+            })),
+          })),
+        }));
+        res.render("admin/admin-dashboard", { users: formattedUsers, user: req.session.currentUser });
       })
       .catch((err) => next(err));
   } else {
@@ -40,7 +57,7 @@ router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
 
 // GET /users/:id/edit
 router.get("/users/:id/edit", isLoggedIn, (req, res, next) => {
-  
+
     const userId = req.params.id;
 
     User.findById(userId)
@@ -80,32 +97,56 @@ router.post("/users/:id/delete", isLoggedIn, (req, res, next) => {
 
 });
 
-// POST /users/:id/delete
 router.post("/jokes/:id/delete", isLoggedIn, (req, res, next) => {
-  
   const jokeId = req.params.id;
 
   Joke.findByIdAndDelete(jokeId)
     .then(() => {
-      res.redirect("/admin/admin-dashboard");
+      // Utiliza req.headers.referer para redirigir a la página anterior
+      res.redirect(req.headers.referer);
     })
     .catch((err) => next(err));
-
 });
 
-// POST /admin/comments/:id/delete
 router.post("/comments/:id/delete", isLoggedIn, (req, res, next) => {
   const commentId = req.params.id;
 
   Comment.findByIdAndDelete(commentId)
     .then(() => {
-      res.redirect("/admin/admin-dashboard");
+      // Utiliza req.headers.referer para redirigir a la página anterior
+      res.redirect(req.headers.referer);
     })
     .catch((err) => next(err));
 });
 
 
+router.get("/:userId/details", isLoggedIn, (req, res, next) => {
+  const currentUser = req.session.currentUser;
+  const userId = req.params.userId;
 
+  User.findById(userId)
+    .populate("jokes")
+    .populate({
+      path: "jokes",
+      populate: {
+        path: "comments",
+        populate: { path: "author" },
+      },
+    })
+    .then((user) => {
+      const formattedJokes = user.jokes.map((joke) => ({
+        ...joke.toObject(),
+        formattedCreatedAt: moment(joke.createdAt).format("LLL"),
+        comments: joke.comments.map((comment) => ({
+          ...comment.toObject(),
+          formattedCreatedAt: moment(comment.createdAt).format("LLL"),
+        })),
+      }));
+
+      res.render("admin/user-details", { user, formattedJokes, currentUser });
+    })
+    .catch((err) => next(err));
+});
 
 
 module.exports = router;

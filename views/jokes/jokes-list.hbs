@@ -8,20 +8,22 @@
         <ul class="list-group">
           {{#each jokes}}
             <li class="list-group-item">
-              <div class="joke-list-user">
-              <h5 class="mb-2">Autor: {{this.author.username}}</h5>
-              <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
-              </div>
-              <p class="mb-2"><strong>Contenido:</strong> {{this.content}}</p>
-              <h6 class="mb-2">Comentarios:</h6>
-              <ul class="list-group">
+              <p class="mb-2"> {{this.content}}</p>
+              <h5 class="mb-2">Publicado por: {{this.author.username}}</h5>
+              <p>el {{formattedCreatedAt}}</p>
+              <div class="avatar" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
+              {{!-- <h4 class="mb-2"><strong>Comentarios:</strong></h4> --}}
+              {{!-- <ul class="list-group">
                 {{#each this.comments}}
                   <li class="list-group-item">
-                    <strong>{{this.author.username}}</strong>: {{this.content}}
+                    {{this.content}}<br/>
+                    <p>Publicado por:</p><strong>{{this.author.username}}</strong>
+                    <p>el {{this.formattedCreatedAt}}</p>
+                    <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>  
                   </li>
                 {{/each}}
-              </ul>
-              <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Ver Detalles y Comentar</a>
+              </ul> --}}
+              <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Ver comentarios y comentar</a>
             </li>
           {{/each}}
         </ul>
@@ -29,9 +31,9 @@
     </div>
   </div>
 </div>
-<img
-    id="playLaughSound"
-    src="/images/botonRisa.png"
-    alt="Icono de risa"
-    class="laugh-icon"
-  > 
+{{!-- <img
+  id="playLaughSound"
+  src="/images/botonRisa.png"
+  alt="Icono de risa"
+  class="laugh-icon"
+> --}}
