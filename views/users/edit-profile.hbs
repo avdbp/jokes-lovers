@@ -23,10 +23,10 @@
             <input type="file" class="form-control-file d-none" name="avatar" id="avatar">
             <label for="avatar" class="btn btn-danger btn-file-style">Seleccionar Archivo</label>
           </div>
-          <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+          <button type="submit" class="btn btn-warning" onclick="confirmSaveChanges()">Guardar Cambios</button>
         </form>
         <div class="ml-4">
-          <img src="{{ user.avatarPath }}" alt="Avatar" class="rounded" style="border: 5px solid #ffd504;">
+        <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
         </div>
       </div>
     </div>

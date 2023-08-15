@@ -10,7 +10,7 @@
 <div class="ml-auto login-set">
       {{#if user}}
         <a class="btn btn-dark text-light" > {{user.name }}  is Logged-in</a>
-        <a class="btn btn-warning text-dark" href="/auth/logout">Cerrar Sesión</a>
+        <a class="btn btn-warning text-dark" href="/auth/logout" onclick="confirmCloseSession()">Cerrar Sesión</a>
         
       {{else}}
         <a class="btn btn-danger text-light" href="/jokes/jokes-list">Chistes Publicados</a>
@@ -73,6 +73,44 @@
     audio.play();
   });
   </script> --}}
+
+
+  <script>
+    function confirmSaveChanges() {
+  if (window.confirm("¿Estás seguro que deseas guardar los cambios realizados?")) {
+  } else {
+    event.preventDefault();
+  }
+}
+  </script>
+
+ <script>
+    function confirmDeleteUser() {
+  if (window.confirm("¿Estás seguro que deseas borrar este usuario?")) {
+  } else {
+    event.preventDefault();
+  }
+}
+  </script>
+
+
+  <script>
+    function confirmDelete() {
+  if (window.confirm("¿Estás seguro que deseas borrar este elemento?")) {
+  } else {
+    event.preventDefault();
+  }
+}
+  </script>
+
+  <script>
+    function confirmCloseSession() {
+  if (window.confirm("¿Estás seguro que deseas cerrar tu sesión?")) {
+  } else {
+    event.preventDefault();
+  }
+}
+  </script>
   <script src="/js/script.js"></script>
   <script src="../utils/risas.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

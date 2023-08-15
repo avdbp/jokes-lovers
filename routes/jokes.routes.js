@@ -4,6 +4,12 @@ const User = require("../models/User.model");
 const Joke = require("../models/Joke.model");
 const Comment = require("../models/Comment.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const moment = require('moment');
+require('moment/locale/es'); 
+moment.locale('es');
+
+
+
 
 // GET /jokes/create-joke
 router.get("/create-joke", isLoggedIn, (req, res, next) => {
@@ -34,19 +40,28 @@ router.post("/create", isLoggedIn, (req, res, next) => {
 
 // GET /jokes/jokes-list
 router.get("/jokes-list", (req, res, next) => {
-const currentUser = req.session.currentUser;
+  const currentUser = req.session.currentUser;
 
   Joke.find()
+    .sort({ createdAt: -1 }) // Ordenar por createdAt en orden descendente
     .populate("author")
     .populate({
       path: "comments",
       populate: { path: "author" },
     })
     .then((jokes) => {
+      jokes.forEach((joke) => {
+        joke.comments.forEach((comment) => {
+          comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+        });
+      });
+
       res.render("jokes/jokes-list", { jokes, user: currentUser });
     })
     .catch((err) => next(err));
 });
+
+
 
 
 // GET /jokes/:id
@@ -61,10 +76,21 @@ router.get("/:id", isLoggedIn, (req, res, next) => {
       populate: { path: "author" },
     })
     .then((joke) => {
-      res.render("jokes/joke-details", { joke, user: currentUser });
+      // Formatea la fecha de creación de la broma
+      const formattedCreatedAt = moment(joke.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+
+      // Formatea la fecha de creación de cada comentario en la broma
+      joke.comments.forEach((comment) => {
+        comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+      });
+
+      res.render("jokes/joke-details", { joke, user: currentUser, formattedCreatedAt });
     })
     .catch((err) => next(err));
 });
+
+
+
 
 
 // POST /jokes/:id/comment

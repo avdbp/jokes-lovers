@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const moment = require('moment');
+require('moment/locale/es'); 
+moment.locale('es');
 
 
 // Require the User model in order to interact with the database
@@ -17,6 +20,7 @@ router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
     User.find()
       .populate({
         path: "jokes",
+        options: { sort: { createdAt: -1 } }, // Corrección: Agregar coma aquí
         populate: {
           path: "comments",
           populate: {
@@ -26,6 +30,15 @@ router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
         },
       })
       .then((users) => {
+        users.forEach((user) => {
+          user.jokes.forEach((joke) => {
+            joke.formattedCreatedAt = moment(joke.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+            joke.comments.forEach((comment) => {
+              comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+            });
+          });
+        });
+
         res.render("admin/admin-dashboard", { users, user: req.session.currentUser });
       })
       .catch((err) => next(err));
@@ -36,20 +49,48 @@ router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
 
 
 
+
   
 
 // GET /users/:id/edit
-router.get("/users/:id/edit", isLoggedIn, (req, res, next) => {
-  
-    const userId = req.params.id;
+router.post("/users/:id/delete", isLoggedIn, (req, res, next) => {
+  const userId = req.params.id;
 
-    User.findById(userId)
-      .then((user) => {
-        res.render("admin/edit-user", { user });
-      })
-      .catch((err) => next(err));
-  
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        // Manejo si el usuario no se encuentra
+        res.redirect("/admin/admin-dashboard");
+        return;
+      }
+
+      // Encuentra todas las bromas asociadas al usuario
+      return Joke.find({ author: userId });
+    })
+    .then((userJokes) => {
+      // Elimina todas las bromas y sus comentarios asociados
+      const jokeDeletions = userJokes.map((joke) => {
+        // Elimina los comentarios asociados a la broma
+        return Comment.deleteMany({ _id: { $in: joke.comments } })
+          .then(() => {
+            // Finalmente, elimina la broma
+            return Joke.findByIdAndDelete(joke._id);
+          });
+      });
+
+      // Espera a que se completen todas las eliminaciones de bromas
+      return Promise.all(jokeDeletions);
+    })
+    .then(() => {
+      // Finalmente, elimina al usuario
+      return User.findByIdAndDelete(userId);
+    })
+    .then(() => {
+      res.redirect("/admin/admin-dashboard");
+    })
+    .catch((err) => next(err));
 });
+
 
 // POST /users/:id/edit
 router.post("/users/:id/edit", isLoggedIn, (req, res, next) => {

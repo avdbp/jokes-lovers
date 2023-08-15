@@ -8,15 +8,14 @@
         <p>¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
         {{#if user}}
           <p>Hola, {{user.name}}. ¡Disfruta explorando y publicando chistes!</p>
-          <a href="/jokes/create-joke" class="btn btn-warning btn-sm">Publica un Chiste</a>
-          <a href="/jokes/jokes-list" class="btn btn-warning btn-sm">Chistes Publicados</a>
+          <a href="/users/profile" class="btn btn-warning btn-sm">Ve a tu perfil</a>
           {{#if user.isAdmin}}
             <a href="/admin/admin-dashboard" class="btn btn-warning btn-sm">Admin Dashboard</a>
           {{/if}}
-          <a href="/auth/logout" class="btn btn-danger btn-sm">Cerrar Sesión</a>
+          <a href="/auth/logout" class="btn btn-danger btn-sm" onclick="confirmCloseSession()">Cerrar Sesión</a>
         {{else}}
           <p>Para disfrutar de todos los chistes y funciones, inicia sesión o regístrate.</p>
-          <a href="/auth/login" class="btn btn-warning btn-sm">Login</a>
+          <a href="/auth/login" class="btn btn-warning btn-sm" onclick="confirmCloseSession()">Login</a>
           <a href="/auth/signup" class="btn btn-warning btn-sm">Regístrate</a>
           <a href="/jokes/jokes-list" class="btn btn-warning btn-sm">Chistes Publicados</a>
         {{/if}}

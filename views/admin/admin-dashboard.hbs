@@ -20,15 +20,18 @@
               {{#each this.jokes}}
                 <li class="list-group-item">
                   {{this.content}}
+                  <p>{{formattedCreatedAt}}</p>
                   <form action="/admin/jokes/{{this._id}}/delete" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-danger">Borrar Chiste</button>
                   </form>
                   <h6 class="mt-3">Comentarios:</h6>
                   <ul class="list-group">
                     {{#each this.comments}}
+                    
                       <li class="list-group-item">
                         <p>Por: {{this.author.username}}</p>
                         <p>{{this.content}}</p>
+                        <p>{{formattedCreatedAt}}</p>
                         <form action="/admin/comments/{{this._id}}/delete" method="POST" class="d-inline">
                           <button type="submit" class="btn btn-danger">Borrar Comentario</button>
                         </form>

@@ -13,11 +13,15 @@
               <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
               </div>
               <p class="mb-2"><strong>Contenido:</strong> {{this.content}}</p>
+              <p>{{formattedCreatedAt}}</p>
+
               <h6 class="mb-2">Comentarios:</h6>
               <ul class="list-group">
                 {{#each this.comments}}
                   <li class="list-group-item">
                     <strong>{{this.author.username}}</strong>: {{this.content}}
+                    <p>{{formattedCreatedAt}}</p>
+
                   </li>
                 {{/each}}
               </ul>
@@ -29,9 +33,4 @@
     </div>
   </div>
 </div>
-<img
-    id="playLaughSound"
-    src="/images/botonRisa.png"
-    alt="Icono de risa"
-    class="laugh-icon"
-  > 
+

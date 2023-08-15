@@ -10,15 +10,18 @@
           <img src="{{joke.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
         </div>
         <p>Contenido: {{joke.content}}</p>
+        <p>{{formattedCreatedAt}}</p>
         <h5>Comentarios</h5>
         <ul class="list-group">
           {{#each joke.comments}}
+          
             <li class="list-group-item">
               <div class="joke-list-user">
                 <p>Por: {{this.author.username}}</p>
                 <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
             </div>
               <p>{{this.content}}</p>
+              <p>{{formattedCreatedAt}}</p>
             </li>
           {{/each}}
         </ul>
