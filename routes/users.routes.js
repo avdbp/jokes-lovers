@@ -2,8 +2,6 @@ const express = require("express");
 const multer = require('multer');
 const router = express.Router();
 const path = require("path");
-const moment = require('moment');
-
 
 
 
@@ -19,11 +17,16 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/images"); 
+    cb(null, "public/images"); // Ruta donde se guardarán las imágenes
   },
   filename: function (req, file, cb) {
+    // Obtener el ID del usuario actual
     const userId = req.session.currentUser._id;
+
+    // Obtener la extensión del archivo
     const ext = path.extname(file.originalname);
+
+    // Construir el nombre de archivo único con el ID del usuario y la extensión
     const uniqueFilename = `${userId}${ext}`;
 
     cb(null, uniqueFilename);
@@ -35,34 +38,25 @@ const upload = multer({ storage: storage });
 
 
 router.get("/profile", isLoggedIn, (req, res, next) => {
-  const currentUser = req.session.currentUser;
+    const currentUser = req.session.currentUser;
+    console.log(currentUser);
 
-  User.findById(currentUser._id)
-    .populate("jokes")
-    .populate({
-      path: "jokes",
-      populate: {
-        path: "comments",
-        populate: { path: "author" },
-      },
-    })
-    .then(user => {
-      const formattedJokes = user.jokes.map(joke => ({
-        ...joke.toObject(),
-        formattedCreatedAt: moment(joke.createdAt).format("LLL"),
-        comments: joke.comments.map(comment => ({
-          ...comment.toObject(),
-          formattedCreatedAt: moment(comment.createdAt).format("LLL"),
-        })),
-      }));
-
-      res.render("users/profile", { user, currentUser, formattedJokes });
-    })
-    .catch(error => {
-      res.render("error", { error });
-    });
-});
-
+    User.findById(currentUser._id)
+      .populate("jokes")
+      .populate({
+        path: "jokes",
+        populate: {
+          path: "comments",
+          populate: { path: "author" },
+        },
+      })
+      .then(user => {
+        res.render("users/profile", { user, currentUser });
+      })
+      .catch(error => {
+        res.render("error", { error });
+      });
+  });
 
   router.post("/profile/:id/delete", isLoggedIn, (req, res, next) => {
     const userId = req.session.currentUser._id;

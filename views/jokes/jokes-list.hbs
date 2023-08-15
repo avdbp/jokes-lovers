@@ -13,7 +13,7 @@
               <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
               </div>
               <p class="mb-2"><strong>Contenido:</strong> {{this.content}}</p>
-              <p>{{formattedCreatedAt}}</p>
+              <p>{{this.formattedCreatedAt}}</p>
 
               <h6 class="mb-2">Comentarios:</h6>
               <ul class="list-group">
@@ -24,8 +24,8 @@
 
                   </li>
                 {{/each}}
-              </ul> --}}
-              <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Ver comentarios y comentar</a>
+              </ul>
+              <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Ver Detalles y Comentar</a>
             </li>
           {{/each}}
         </ul>

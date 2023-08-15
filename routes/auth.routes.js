@@ -1,15 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const session = require('express-session')
+const moment = require('moment');
+require('moment/locale/es'); 
+moment.locale('es');
 
-
-
-// ℹ️ Handles password encryption
-const bcrypt = require("bcrypt");
-const mongoose = require("mongoose");
-
-// How many rounds should bcrypt run the salt (default - 10 rounds)
-const saltRounds = 10;
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
@@ -20,145 +14,163 @@ const Comment = require("../models/Comment.model");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-const isAdmin = false;
-
-
-// GET /auth/signup
-router.get("/signup", isLoggedOut, (req, res, next) => {
-  res.render("auth/signup");
-});
-
-// POST /auth/signup
-router.post("/signup", isLoggedOut, (req, res, next) => {
-  const { name, username, email, password, passwordRepeat } = req.body;
-
-  // Check that username, email, and password are provided
-  if (name === "" || username === "" || email === "" || password === "" || passwordRepeat === ""  ) {
-    res.status(400).render("auth/signup", {
-      errorMessage:
-        "Todos los campos deben estar llenos",
-    });
-
-    return;
-  }
-
-  if (password != passwordRepeat) {
-    res.render("auth/signup", {
-      errorMessage: "Las contraseñas no coinciden.",
-    });
-    return;
-  }
-
-  if (password.length < 6) {
-    res.status(400).render("auth/signup", {
-      errorMessage: "Tu Password debe tener al menos 6 caracteres y debe contener al menos un número, una minúscula y una letra mayúscula."
-    });
-
-    return;
-  }
-
- 
-  //   ! This regular expression checks password for special characters and minimum length
-  
-  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-  if (!regex.test(password)) {
-    res
-      .status(400)
-      .render("auth/signup", {
-        errorMessage: "Tu Password debe tener al menos 6 caracteres y debe contener al menos un número, una minúscula y una letra mayúscula."
-    });
-    return;
-  }
-
-
-  // Create a new user - start by hashing the password
-  bcrypt
-    .genSalt(saltRounds)
-    .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => {
-      // Create a user and save it in the database
-      return User.create({ name, username, email, isAdmin, password: hashedPassword });
-    })
-    .then((user) => {
-      res.redirect("/auth/login");
-    })
-    .catch((error) => {
-      if (error instanceof mongoose.Error.ValidationError) {
-        res.status(500).render("auth/signup", { errorMessage: error.message });
-      } else if (error.code === 11000) {
-        res.status(500).render("auth/signup", {
-          errorMessage:
-            "El Username y el Email deben ser únicos. Introduce un Username y un Email válidos.",
+// GET /admin/admin-dashboard
+router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
+  if (req.session.currentUser) {
+    User.find()
+      .populate({
+        path: "jokes",
+        options: { sort: { createdAt: -1 } }, // Corrección: Agregar coma aquí
+        populate: {
+          path: "comments",
+          populate: {
+            path: "author",
+            model: "User",
+          },
+        },
+      })
+      .then((users) => {
+        users.forEach((user) => {
+          user.jokes.forEach((joke) => {
+            joke.formattedCreatedAt = moment(joke.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+            joke.comments.forEach((comment) => {
+              comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+            });
+          });
         });
-      } else {
-        next(error);
-      }
-    });
-});
 
-// GET /auth/login
-router.get("/login", isLoggedOut, (req, res, next) => {
-  res.render("auth/login");
-});
-
-// POST /auth/login
-router.post("/login", isLoggedOut, (req, res, next) => {
-  const { username, password } = req.body;
-
-  // Check that username, email, and password are provided
-  if (username === "" || password === "") {
-    res.status(400).render("auth/login", {
-      errorMessage:
-      "Todos los campos deben estar llenos",
-    });
-
-    return;
+        res.render("admin/admin-dashboard", { users, user: req.session.currentUser });
+      })
+      .catch((err) => next(err));
+  } else {
+    res.redirect("/");
   }
+});
 
-  // Search the database for a user with the email submitted in the form
-  User.findOne({ username })
+
+
+
+  
+
+// GET /users/:id/edit
+router.post("/users/:id/delete", isLoggedIn, (req, res, next) => {
+  const userId = req.params.id;
+
+  User.findById(userId)
     .then((user) => {
-      // If the user isn't found, send an error message that user provided wrong credentials
       if (!user) {
-        res
-          .status(400)
-          .render("auth/login", { errorMessage: " Tu Username o Password no conciden, intentalo de nuevo." });
+        // Manejo si el usuario no se encuentra
+        res.redirect("/admin/admin-dashboard");
         return;
       }
 
-      // If user is found based on the username, check if the in putted password matches the one saved in the database
-      bcrypt
-        .compare(password, user.password)
-        .then((isSamePassword) => {
-          if (!isSamePassword) {
-            res
-              .status(400)
-              .render("auth/login", { errorMessage: "Tu Username o Password no conciden, intentalo de nuevo." });
-            return;
-          }
+      // Encuentra todas las bromas asociadas al usuario
+      return Joke.find({ author: userId });
+    })
+    .then((userJokes) => {
+      // Elimina todas las bromas y sus comentarios asociados
+      const jokeDeletions = userJokes.map((joke) => {
+        // Elimina los comentarios asociados a la broma
+        return Comment.deleteMany({ _id: { $in: joke.comments } })
+          .then(() => {
+            // Finalmente, elimina la broma
+            return Joke.findByIdAndDelete(joke._id);
+          });
+      });
 
-          // Add the user object to the session object
-          req.session.currentUser = user.toObject();
-          // Remove the password field
-          delete req.session.currentUser.password;
-
-          res.redirect("/");
-        })
-        .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
+      // Espera a que se completen todas las eliminaciones de bromas
+      return Promise.all(jokeDeletions);
+    })
+    .then(() => {
+      // Finalmente, elimina al usuario
+      return User.findByIdAndDelete(userId);
+    })
+    .then(() => {
+      res.redirect("/admin/admin-dashboard");
     })
     .catch((err) => next(err));
 });
 
-// GET /auth/logout
-router.get("/logout", isLoggedIn, (req, res, next) => {
-  req.session.destroy((err) => {
-    if (err) {
-      res.status(500).render("/", { errorMessage: err.message });
-      return;
-    }
 
-    return res.redirect("/auth/login");
-  });
+// POST /users/:id/edit
+router.get("/users/:id/edit", (req, res, next) => {
+  const userId = req.params.id;
+
+  User.findById(userId)
+    .then(user => {
+      if (!user) {
+        return res.status(404).send("Usuario no encontrado");
+      }
+      res.render("admin/edit-user", { user });
+    })
+    .catch(error => {
+      next(error);
+    });
 });
+
+// Ruta para actualizar un usuario (POST)
+router.post("/users/:id/edit", (req, res, next) => {
+  const userId = req.params.id;
+  const { name, username, email, isAdmin } = req.body;
+
+  User.findByIdAndUpdate(userId, {
+    name,
+    username,
+    email,
+    isAdmin
+  })
+    .then(updatedUser => {
+      if (!updatedUser) {
+        return res.status(404).send("Usuario no encontrado");
+      }
+      res.redirect("/admin/admin-dashboard");
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
+
+
+// POST /users/:id/delete
+router.post("/users/:id/delete", isLoggedIn, (req, res, next) => {
+  
+  const userId = req.params.id;
+
+  User.findByIdAndDelete(userId)
+    .then(() => {
+      res.redirect("/admin/admin-dashboard");
+    })
+    .catch((err) => next(err));
+
+});
+
+// POST /users/:id/delete
+router.post("/jokes/:id/delete", isLoggedIn, (req, res, next) => {
+  
+  const jokeId = req.params.id;
+
+  Joke.findByIdAndDelete(jokeId)
+    .then(() => {
+      res.redirect("/admin/admin-dashboard");
+    })
+    .catch((err) => next(err));
+
+});
+
+// POST /admin/comments/:id/delete
+router.post("/comments/:id/delete", isLoggedIn, (req, res, next) => {
+  const commentId = req.params.id;
+
+  Comment.findByIdAndDelete(commentId)
+    .then(() => {
+      res.redirect("/admin/admin-dashboard");
+    })
+    .catch((err) => next(err));
+});
+
+
+
+
 
 module.exports = router;

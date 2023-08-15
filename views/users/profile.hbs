@@ -17,35 +17,24 @@
         <h2>Mis Chistes</h2>
       </div>
       <div class="body-card">
-        {{#each formattedJokes}}
+        {{#each user.jokes}}
           <div class="mb-4">
             <h3>{{title}}</h3>
             <p>{{content}}</p>
-            <p><strong>Fecha de Publicación:</strong> {{formattedCreatedAt}}</p>
-            <hr>
             <p><strong>Comentarios:</strong></p>
             <ul>
-            {{#each comments}}
-              <li>
-                <p>{{this.content}}</p><br/>
-                <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar2"></div>
-                <p><strong>Publicado por:</strong> {{this.author.username}}</p>
-                <p><strong>{{formattedCreatedAt}}</strong></p>
-              </li>
-              
-            {{else}}
-              <p>Este chiste no tiene comentarios hasta ahora</p>
-            {{/each}}
-          </ul>
-
+              {{#each comments}}
+                <li>
+                  {{this.content}}
+                </li>
+              {{/each}}
+            </ul>
             <form action="/users/profile/{{this._id}}/delete" method="post">
               <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">Borrar Chiste y Comentarios</button>
             </form>
-            <hr>
           </div>
         {{/each}}
       </div>
     </div>
   </div>
 </div>
-
