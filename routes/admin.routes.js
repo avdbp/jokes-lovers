@@ -15,6 +15,10 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /admin/admin-dashboard
+function formatDate(date) {
+  return moment(date).format("LLL");
+}
+
 router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
   if (req.session.currentUser) {
     User.find()
@@ -121,32 +125,56 @@ router.post("/users/:id/delete", isLoggedIn, (req, res, next) => {
 
 });
 
-// POST /users/:id/delete
 router.post("/jokes/:id/delete", isLoggedIn, (req, res, next) => {
-  
   const jokeId = req.params.id;
 
   Joke.findByIdAndDelete(jokeId)
     .then(() => {
-      res.redirect("/admin/admin-dashboard");
+      // Utiliza req.headers.referer para redirigir a la página anterior
+      res.redirect(req.headers.referer);
     })
     .catch((err) => next(err));
-
 });
 
-// POST /admin/comments/:id/delete
 router.post("/comments/:id/delete", isLoggedIn, (req, res, next) => {
   const commentId = req.params.id;
 
   Comment.findByIdAndDelete(commentId)
     .then(() => {
-      res.redirect("/admin/admin-dashboard");
+      // Utiliza req.headers.referer para redirigir a la página anterior
+      res.redirect(req.headers.referer);
     })
     .catch((err) => next(err));
 });
 
 
+router.get("/:userId/details", isLoggedIn, (req, res, next) => {
+  const currentUser = req.session.currentUser;
+  const userId = req.params.userId;
 
+  User.findById(userId)
+    .populate("jokes")
+    .populate({
+      path: "jokes",
+      populate: {
+        path: "comments",
+        populate: { path: "author" },
+      },
+    })
+    .then((user) => {
+      const formattedJokes = user.jokes.map((joke) => ({
+        ...joke.toObject(),
+        formattedCreatedAt: moment(joke.createdAt).format("LLL"),
+        comments: joke.comments.map((comment) => ({
+          ...comment.toObject(),
+          formattedCreatedAt: moment(comment.createdAt).format("LLL"),
+        })),
+      }));
+
+      res.render("admin/user-details", { user, formattedJokes, currentUser });
+    })
+    .catch((err) => next(err));
+});
 
 
 module.exports = router;

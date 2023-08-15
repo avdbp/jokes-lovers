@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="header-card">
-        <h2>Bienvenido a la Página de Inicio</h2>
+        <h2>Bienvenido a la Página de Inicio<br/> {{user.name}}</h2>
       </div>
       <div class="body-card">
         <p>¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
@@ -12,6 +12,7 @@
           {{#if user.isAdmin}}
             <a href="/admin/admin-dashboard" class="btn btn-warning btn-sm">Admin Dashboard</a>
           {{/if}}
+          <a href="/auth/logout" class="btn btn-danger btn-sm" onclick="confirmCloseSession()">Cerrar Sesión</a>
           <a href="/auth/logout" class="btn btn-danger btn-sm" onclick="confirmCloseSession()">Cerrar Sesión</a>
         {{else}}
           <p>Para disfrutar de todos los chistes y funciones, inicia sesión o regístrate.</p>

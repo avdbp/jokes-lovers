@@ -6,8 +6,10 @@
       </div>
       <div class="body-card">
         <div class="joke-list-user">
-          <p>Autor: {{joke.author.name}}</p>
-          <img src="{{joke.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
+          <p>{{joke.content}}</p>
+          <p>Publicado por: <strong>{{joke.author.username}}</strong></p>
+          <p>el {{formattedCreatedAt}}</p>
+          <div class="avatar" style="background-image: url({{ joke.author.avatarPath }})" alt="Avatar"></div>
         </div>
         <p>Contenido: {{joke.content}}</p>
         <p>{{formattedCreatedAt}}</p>
@@ -16,6 +18,7 @@
           {{#each joke.comments}}
           
             <li class="list-group-item">
+              <p><strong>Comentario: </strong> {{this.content}}</p>
               <div class="joke-list-user">
                 <p>Por: {{this.author.username}}</p>
                 <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
@@ -23,11 +26,13 @@
               <p>{{this.content}}</p>
               <p>{{formattedCreatedAt}}</p>
             </li>
+            {{else}}
+              <p>Este chiste no tiene comentarios hasta ahora</p>
           {{/each}}
         </ul>
         <form action="/jokes/{{joke._id}}/comment" method="POST">
           <div class="form-group">
-            <label for="content">Comentario:</label>
+            <label for="content">Deja tu comentario:</label>
             <textarea class="form-control" name="content" id="content" required></textarea>
           </div>
           <button type="submit" class="btn btn-warning">Agregar Comentario</button>
