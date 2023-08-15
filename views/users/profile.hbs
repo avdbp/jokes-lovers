@@ -25,7 +25,11 @@
             <ul>
               {{#each comments}}
                 <li>
-                  {{this.content}}
+                  <p>{{this.content}}</p>
+                  <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
+                  <p>Publicado por: <strong>{{this.author.username}}</strong></p>
+                  
+
                 </li>
               {{/each}}
             </ul>

@@ -29,7 +29,7 @@
         <a class="navbar-brand" href="/">Inicio</a>
       {{#if user}}
         
-        <a class="navbar-brand" href="/users/profile">Perfil {{user.username}}</a>
+        <a class="navbar-brand" href="/users/profile">Perfil <strong>{{user.username}}</strong> </a>
         <a class="navbar-brand" href="/jokes/create-joke">Publica un Chiste</a>
         <a class="navbar-brand" href="/jokes/jokes-list">Chistes Publicados</a>
         {{#if user.isAdmin}}

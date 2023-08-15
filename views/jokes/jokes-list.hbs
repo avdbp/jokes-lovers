@@ -7,28 +7,36 @@
       <div class="body-card">
         <ul class="list-group">
           {{#each jokes}}
-            <li class="list-group-item">
-              <div class="joke-list-user">
-              <h5 class="mb-2">Autor: {{this.author.username}}</h5>
-              <img src="{{this.author.avatarPath}}" alt="Avatar" class="rounded" style="border: 2px solid #ffd504;">
-              </div>
-              <p class="mb-2"><strong>Contenido:</strong> {{this.content}}</p>
-              <p>{{this.formattedCreatedAt}}</p>
+          <li class="list-group-item">
+            <p class="mb-2">{{this.content}}</p>
+            <div class="joke-list-user">
+              <div class="avatar" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
+              <h5 class="mb-2">Publicado por: <strong>{{this.author.username}}</strong></h5>
+            </div>
+            <p>el <strong>{{this.formattedCreatedAt}}</strong></p>
 
-              <h6 class="mb-2">Comentarios:</h6>
-              <ul class="list-group">
+            <h3 class="mb-2">Comentarios:</h3>
+            <ul class="list-group">
+              {{#if this.comments.length}}
                 {{#each this.comments}}
                   <li class="list-group-item">
-                    <strong>{{this.author.username}}</strong>: {{this.content}}
-                    <p>{{formattedCreatedAt}}</p>
-
+                    <p>{{this.content}}</p><br/>
+                    <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
+                    <strong>{{this.author.username}}</strong>
+                    <p>el <strong>{{formattedCreatedAt}}</strong></p>
                   </li>
                 {{/each}}
-              </ul>
-              <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Ver Detalles y Comentar</a>
-            </li>
-          {{/each}}
-        </ul>
+              {{else}}
+                <li class="list-group-item">
+                  <p style="color:brown;">Aún no hay comentarios en esta publicación.</p>
+                </li>
+              {{/if}}
+            </ul>
+            <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Comentar</a>
+          </li>
+        {{/each}}
+      </ul>
+
       </div>
     </div>
   </div>
