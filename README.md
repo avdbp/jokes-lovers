@@ -127,6 +127,10 @@ const Comment = model("Comment", commentSchema);
 
 ```
 
+## Effective CRUD
+User.model
+Joke.model
+
 ## User Roles
 
 | Role  | Capabilities                                        | Property   |
