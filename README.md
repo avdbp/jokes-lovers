@@ -28,30 +28,103 @@ $ npm start
 ## Models
 #### User.model.js
 ```js
-const userSchema = new Schema({
-  username: { type: String, required: true },
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-  isAdmin: Boolean,
-});
+const { Schema, model } = require("mongoose");
+
+// TODO: Please make sure you edit the User model to whatever makes sense in this case
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: false,
+      unique: true,
+      trim: true,
+    },
+    username: {
+      type: String,
+      required: false,
+      unique: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+
+    jokes: [{ type: Schema.Types.ObjectId, ref: "Joke" }],
+
+    isAdmin: {
+      type: Boolean,
+      default:false,
+    },
+
+    avatarPath: { 
+      type: String, 
+      default: '(/images/avatar.png' 
+    }, 
+  
+
+
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const User = model("User", userSchema);
+
 ```
 #### Post.model.js
 ```js
-const postSchema = new Schema({
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  author: { type: Schema.Types.ObjectId, ref: "User" },
-  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+const mongoose = require("mongoose");
+
+const jokeSchema = new mongoose.Schema({
+  content: String,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now, // Establece la fecha y hora actual por defecto
+  },
 });
+
+const Joke = mongoose.model("Joke", jokeSchema);
+
 ```
 #### Comment.model.js
 ```js
-const commentSchema = new Schema({
-  content: { type: String, required: true },
-  author: { type: Schema.Types.ObjectId, ref: "User" },
-  post: { type: Schema.Types.ObjectId, ref: "Post" },
-});
+const { Schema, model } = require("mongoose");
+
+const commentSchema = new Schema(
+  {
+    content: {
+      type: String,
+      required: true,
+    },
+    author: { type: Schema.Types.ObjectId, ref: "User" },
+    joke: { type: Schema.Types.ObjectId, ref: "Joke" },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Comment = model("Comment", commentSchema);
+
 ```
 
 ## User Roles
