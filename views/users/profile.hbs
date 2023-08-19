@@ -1,43 +1,51 @@
+<!-- profile.hbs -->
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-4">
       <div class="header-card">
         <h2>Mi Perfil</h2>
       </div>
-     <div class="body-card2">
+      <div class="body-card">
         <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
         <h3>{{user.name}}</h3>
-        <p>Username: {{user.username}}</p>
-        <p>Email: {{user.email}}</p>
+        <h4>Username: {{user.username}}</h4>
+        <h4>Email: {{user.email}}</h4>
       </div>
-      <a class="btn btn-warning" href="/users/edit-profile">Editar Perfil</a>
+      <a class="btn btn-dark text-warning btn-lg" href="/users/edit-profile">Editar Perfil</a>
     </div>
-    <div class="col-md-8">
+    <div class="col-lg-8">
       <div class="header-card">
         <h2>Mis Chistes</h2>
       </div>
       <div class="body-card">
-        {{#each user.jokes}}
-          <div class="mb-4">
-            <h3>{{title}}</h3>
-            <p>{{content}}</p>
-            <p><strong>Comentarios:</strong></p>
-            <ul>
+        {{#if user.jokes.length}}
+          {{#each user.jokes}}
+            <div class="mb-4">
+              <p>{{content}}</p>
+              <a href="/users/profile/{{_id}}/edit" class="btn btn-md btn-warning">Editar Chiste</a>
+              <p><strong>Comentarios:</strong></p>
+              <ul class="list-group">
+            {{#if comments.length}}
               {{#each comments}}
-                <li>
-                  <p>{{this.content}}</p>
-                  <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
-                  <p>Publicado por: <strong>{{this.author.username}}</strong></p>
-                  
-
-                </li>
-              {{/each}}
-            </ul>
-            <form action="/users/profile/{{this._id}}/delete" method="post">
-              <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">Borrar Chiste y Comentarios</button>
+              <li class="list-group-item">  
+                <p>{{this.content}}</p>
+                <div class="joke-list-user">
+                <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
+                <p>Publicado por: <strong>{{this.author.username}}</strong></p>
+            </div>
+            {{/each}}
+              {{else}}
+                <h3 style="color:brown;">Esta publicación aún no tiene comentarios.</h3>
+              {{/if}}
+        </ul>
+            <form action="/users/profile/{{_id}}/delete" method="post">
+              <button type="submit" class="btn btn-md btn-danger" onclick="confirmDelete()">Borrar Chiste</button>
             </form>
           </div>
         {{/each}}
+            {{else}}
+                <h3 style="color:brown;">Aún no has publicado nada. <br/><a style="text-decoration: none;" href="/jokes/create-joke">Aprovecha ahora y publica tu mejor chiste</a></h3>
+              {{/if}}
       </div>
     </div>
   </div>

@@ -19,11 +19,11 @@
             <input type="email" class="form-control" name="email" id="email" value="{{user.email}}" required>
           </div>
           <div class="mb-3">
-            <label for="avatar" class="form-label">Cambiar Imagen de Perfil:</label>
+            <label for="avatar" class="form-label">Cambia tu Imagen de Perfil:   </label>
             <input type="file" class="form-control-file d-none" name="avatar" id="avatar">
-            <label for="avatar" class="btn btn-danger btn-file-style">Seleccionar Archivo</label>
+            <label for="avatar" style="margin-left: 15px" class="btn btn-danger btn-file-style">Seleccionar Archivo</label>
           </div>
-          <button type="submit" class="btn btn-warning" onclick="confirmSaveChanges()">Guardar Cambios</button>
+          <button type="submit" class="btn btn-dark text-warning" onclick="confirmSaveChanges()">Guardar Cambios</button>
         </form>
         <div class="ml-4">
         <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>

@@ -25,9 +25,7 @@
             </li>
             {{/each}}
           {{else}}
-                <li class="list-group-item">
                   <p style="color:brown;">Aún no hay comentarios en esta publicación.</p>
-                </li>
             {{/if}}
         </ul>
         <form action="/jokes/{{joke._id}}/comment" method="POST">
@@ -35,8 +33,10 @@
             <label for="content">Comentario:</label>
             <textarea class="form-control" name="content" id="content" required></textarea>
           </div>
-          <button type="submit" class="btn btn-warning">Agregar Comentario</button>
+          <button type="submit" class="btn btn-warning btn-md">Agregar Comentario</button>
+         
         </form>
+         <a href="/jokes/jokes-list" class="btn btn-danger">Volver a Chistes Publicados</a>
       </div>
     </div>
   </div>

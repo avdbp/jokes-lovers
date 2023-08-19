@@ -1,0 +1,28 @@
+// POST /jokes/:jokeId/:commentId/delete-comment
+
+router.post("/:jokeId/:commentId/delete-comment", isLoggedIn, (req, res, next) => {
+  const jokeId = req.params.jokeId;
+  const commentId = req.params.commentId;
+
+  Comment.findById(commentId)
+    .then((comment) => {
+      if (!comment) {
+        return res.status(404).send("Comentario no encontrado");
+      }
+
+      if (comment.author.equals(req.session.currentUser._id)) {
+        // Verifica si el usuario actual es el autor del comentario
+        Joke.findByIdAndUpdate(jokeId, { $pull: { comments: commentId } })
+          .then(() => {
+            return Comment.findByIdAndDelete(commentId);
+          })
+          .then(() => {
+            res.redirect(`/jokes/${jokeId}`);
+          })
+          .catch((error) => next(error));
+      } else {
+        res.redirect(`/jokes/${jokeId}`);
+      }
+    })
+    .catch((error) => next(error));
+});

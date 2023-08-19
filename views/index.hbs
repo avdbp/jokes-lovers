@@ -9,16 +9,16 @@
         {{#if user}}
           <p>Hola, <strong>{{user.username}}</strong>. ¡Disfruta explorando y publicando chistes!</p>
           <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
-          <a href="/users/profile" class="btn btn-warning btn-sm">Ve a tu perfil</a>
+          <a href="/users/profile" class="btn btn-dark text-warning btn-md">Ve a tu perfil</a>
           {{#if user.isAdmin}}
-            <a href="/admin/admin-dashboard" class="btn btn-warning btn-sm">Admin Dashboard</a>
+            <a href="/admin/admin-dashboard" class="btn btn-dark text-warning btn-md">Admin Dashboard</a>
           {{/if}}
-          <a href="/auth/logout" class="btn btn-danger btn-sm" onclick="confirmCloseSession()">Cerrar Sesión</a>
+          <a href="/auth/logout" class="btn btn-danger btn-md" onclick="confirmCloseSession()">Cerrar Sesión</a>
         {{else}}
           <p>Para disfrutar de todos los chistes y funciones, inicia sesión o regístrate.</p>
-          <a href="/auth/login" class="btn btn-warning btn-sm" onclick="confirmCloseSession()">Login</a>
-          <a href="/auth/signup" class="btn btn-warning btn-sm">Regístrate</a>
-          <a href="/jokes/jokes-list" class="btn btn-warning btn-sm">Chistes Publicados</a>
+          <a href="/auth/login" class="btn btn-dark text-warning btn-md" onclick="confirmCloseSession()">Login</a>
+          <a href="/auth/signup" class="btn btn-dark text-warning btn-md">Regístrate</a>
+          <a href="/jokes/jokes-list" class="btn btn-dark text-warning btn-md">Chistes Publicados</a>
         {{/if}}
       </div>
     </div>

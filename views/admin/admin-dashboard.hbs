@@ -8,41 +8,51 @@
         {{#each users}}
           <li class="list-group-item">
             <div class="avatar" style="background-image: url({{ this.avatarPath }})" alt="Avatar"></div>
-            <h4>{{this.name}}</h4>
-            <p>Username: <strong>{{this.username}}</strong></p>
-            <p>Email: <strong>{{this.email}}</strong></p>
+            <h2>{{this.name}}</h2>
+            <h3>Username: <strong>{{this.username}}</strong></h3>
+            <h>Email: <strong>{{this.email}}</strong></h>
             <p>Tipo de Usuario: <strong>Admin {{this.isAdmin}}</strong></p>
             <a href="/admin/users/{{this._id}}/edit" class="btn btn-warning">Editar Usuario</a>
             <form action="/admin/users/{{this._id}}/delete" method="POST" class="d-inline">
               <button type="submit" class="btn btn-danger">Borrar Usuario</button>
             </form>
-            <h3 class="mt-3">Publicaciones:</h3>
+            <h3 class="mt-3">Publicaciones de <strong>{{this.username}}:</strong></h3><br/>
             <ul class="list-group">
               {{#each this.jokes}}
-                <li class="list-group-item">
+              <h4><strong>Chiste publicado el {{formattedCreatedAt}}</strong></h4>
+                <li class="list-group">
                   <p>{{this.content}}</p><br/>
-                  <p>Publicado el <strong>{{formattedCreatedAt}}</strong></p>
+                  
                   <form action="/admin/jokes/{{this._id}}/delete" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-danger">Borrar Chiste</button>
                   </form>
-                  <h4 class="mt-3">Comentarios:</h4>
+                  <h4 class="mt-3"><strong>Comentarios:</strong></h4>
                   <ul class="list-group">
-                    {{#each this.comments}}
-                      <li class="list-group-item">
-                        <p>{{this.content}}</p>
-                        <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
-                        <p>Publicado por: <strong>{{this.author.username}}</strong></p>
-                        <p>el <strong>{{formattedCreatedAt}}</strong></p>
-                        <form action="/admin/comments/{{this._id}}/delete" method="POST" class="d-inline">
-                          <button type="submit" class="btn btn-danger">Borrar Comentario</button>
-                        </form>
-                      </li>
-                    {{/each}}
-                  </ul>
-                </li>
+                  {{#each this.comments}}
+                    <li class="list-group-item">
+                      <p>{{this.content}}</p>
+                      <div class="avatar2" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
+                      <p>Publicado por: <strong>{{this.author.username}}</strong></p>
+                      <p>el <strong>{{formattedCreatedAt}}</strong></p>
+                      <form action="/admin/comments/{{this._id}}/delete" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Borrar Comentario</button>
+                      </form>
+                    </li>
+                  {{/each}}
+
+                  {{#unless this.comments}}
+                      <h3 style="color:brown;">Esta publicación aún no tiene comentarios.</h3>
+                    </li>
+                {{/unless}}
+              </ul>
+                <hr>
               {{/each}}
+
+              {{#unless this.jokes}}
+                  <h3 style="color:brown;">Este usuario aún no tiene publicaciones.</h3>
+                  <hr>
+              {{/unless}}
             </ul>
-          </li>
         {{/each}}
       </ul>
     </div>

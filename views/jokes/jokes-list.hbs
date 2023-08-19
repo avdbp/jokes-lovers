@@ -7,14 +7,13 @@
       <div class="body-card">
         <ul class="list-group">
           {{#each jokes}}
-          <li class="list-group-item">
+          <p class="listgroup-item">
             <p class="mb-2">{{this.content}}</p>
             <div class="joke-list-user">
               <div class="avatar" style="background-image: url({{ this.author.avatarPath }})" alt="Avatar"></div>
               <h5 class="mb-2">Publicado por: <strong>{{this.author.username}}</strong></h5>
             </div>
             <p>el <strong>{{this.formattedCreatedAt}}</strong></p>
-
             <h3 class="mb-2">Comentarios:</h3>
             <ul class="list-group">
               {{#if this.comments.length}}
@@ -27,16 +26,18 @@
                   </li>
                 {{/each}}
               {{else}}
-                <li class="list-group-item">
+                <li class="list-group">
                   <p style="color:brown;">Aún no hay comentarios en esta publicación.</p>
                 </li>
-              {{/if}}
+                {{/if}}
+              </ul>
+              <ul>
+            <a href="/jokes/{{this._id}}" class="btn btn-warning btn-lg mt-2">Comentar</a>
             </ul>
-            <a href="/jokes/{{this._id}}" class="btn btn-warning btn-sm mt-2">Comentar</a>
-          </li>
-        {{/each}}
-      </ul>
-
+            <hr>
+          </p>
+              {{/each}}
+        </ul>
       </div>
     </div>
   </div>

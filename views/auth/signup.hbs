@@ -12,15 +12,22 @@
           <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
           <label for="email">Email:</label>
           <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
-          <label for="password">Password:</label>
-          <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+          <label for="password">* Password:</label>
+          <input type="password" aria-autocomplete="list" class="form-control" name="password" id="password" placeholder="Password" required autocomplete="new-password">
           <label for="passwordRepeat">Repite tu Password:</label>
           <input type="password" class="form-control" name="passwordRepeat" id="passwordRepeat" placeholder="Repite tu Password" required>
-          <button type="submit" class="btn btn-warning" style="margin-top: 10px;">Sign Up</button><br/>
-          <a href="/auth/login">Si ya te registraste haz login</a>
+          <p class="warning-text"><strong>*</strong> Atención: el Password debe tener al menos 6 caracteres y contener al menos un número, una letra minúscula y una letra mayúscula</p>
+          <label for="pin">** PIN:</label>
+          <input type="password" class="form-control" name="pin" id="pin" placeholder="PIN" maxlength="4">
+          <input type="hidden" name="isAdmin" id="isAdmin" value="false">
+          <p class="warning-text"><strong>**</strong> Solo si tienes permisos de user-admin ingresa tu PIN, de lo contrario omítelo</p>
+
           {{#if errorMessage}}
             <p class="error">{{errorMessage}}</p>
           {{/if}}
+          <button type="submit" class="btn btn-warning" style="margin-top: 10px;">Sign Up</button><br/>
+          <a class="login-signup" href="/auth/login">Si ya te registraste haz login</a>
+          
         </form>
       </div>
     </div>

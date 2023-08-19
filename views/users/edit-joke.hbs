@@ -1,0 +1,19 @@
+<!-- edit-joke.hbs -->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-card">
+        <h2>Editar Chiste</h2>
+      </div>
+      <div class="body-card">
+        <form action="/users/profile/{{ joke._id }}/edit" method="post">
+          <div class="mb-3">
+            <label for="content" class="form-label">Contenido</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required>{{ joke.content }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-dark text-warning">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

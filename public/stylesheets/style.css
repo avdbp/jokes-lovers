@@ -3,8 +3,9 @@
 body {
   background-image: url(../images/haha.jpg) !important;
   padding: 50px;
-  font-size:1.2rem!important ;
+  font-size:1.5rem!important ;
 }
+
 
 a {
   color: #00b7ff;
@@ -44,15 +45,6 @@ h1, h2 {
   background-color: rgba(244, 244, 242, 0.9);
   border-radius: 10px;
 
-}
-
-.body-card2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  background-color: rgba(244, 244, 242, 0.9);
-  border-radius: 10px;
 }
 
 
@@ -106,7 +98,6 @@ h1, h2 {
   padding: 15px;
   background-color: rgba(244, 244, 242, 0.9);
   border-radius: 10px;
-
 }
 
 .list-group-item {
@@ -130,7 +121,7 @@ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/s
   padding: 30px;
 }
 
-.ml-4 img {
+.lg-4 img {
   margin:50px;
   padding: 0px;
   width: 250px;
@@ -155,7 +146,7 @@ div.avatar {
   border-radius: 50%;
   background-size: 100% auto;
   border: 2px solid #ffd504;
-  margin-bottom: 30px;
+  margin: 20px;
 
 }
 
@@ -178,5 +169,25 @@ div.avatar3 {
   border-radius: 50%;
   background-size: 100% auto;
   border: 2px solid #ffd504;
-  margin-bottom: 30px;
+  margin: 30px;
+}
+
+.warning-text {
+  font-style: italic;
+  font-size: 1rem;
+  color: #a89506;
+}
+
+.login-signup {
+  
+  color: #00b7ff;
+  text-decoration: none;
+}
+
+a.login-signup:hover {
+  color: #1287b6;
+}
+
+a.profile-bar:hover{
+color: #ffd504;;
 }

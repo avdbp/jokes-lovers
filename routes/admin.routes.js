@@ -15,37 +15,41 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /admin/admin-dashboard
-router.get("/admin-dashboard", isLoggedIn, (req, res, next) => {
-  if (req.session.currentUser) {
-    User.find()
-      .populate({
-        path: "jokes",
-        options: { sort: { createdAt: -1 } }, // Corrección: Agregar coma aquí
-        populate: {
-          path: "comments",
+router.get("/admin-dashboard", isLoggedIn, async (req, res, next) => {
+  try {
+    if (req.session.currentUser) {
+      const users = await User.find()
+        .populate({
+          path: "jokes",
+          options: { sort: { createdAt: -1 } },
           populate: {
-            path: "author",
-            model: "User",
+            path: "comments",
+            options: { sort: { createdAt: -1 } },
+            populate: {
+              path: "author",
+              model: "User",
+            },
           },
-        },
-      })
-      .then((users) => {
-        users.forEach((user) => {
-          user.jokes.forEach((joke) => {
-            joke.formattedCreatedAt = moment(joke.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
-            joke.comments.forEach((comment) => {
-              comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
-            });
-          });
         });
 
-        res.render("admin/admin-dashboard", { users, user: req.session.currentUser });
-      })
-      .catch((err) => next(err));
-  } else {
-    res.redirect("/");
+      users.forEach((user) => {
+        user.jokes.forEach((joke) => {
+          joke.formattedCreatedAt = moment(joke.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+          joke.comments.forEach((comment) => {
+            comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
+          });
+        });
+      });
+
+      res.render("admin/admin-dashboard", { users, user: req.session.currentUser });
+    } else {
+      res.redirect("/");
+    }
+  } catch (error) {
+    next(error);
   }
 });
+
 
 
 

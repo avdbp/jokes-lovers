@@ -43,10 +43,11 @@ router.get("/jokes-list", (req, res, next) => {
   const currentUser = req.session.currentUser;
 
   Joke.find()
-    .sort({ createdAt: -1 }) // Ordenar por createdAt en orden descendente
+    .sort({ createdAt: -1 }) // Ordenar chistes por createdAt en orden descendente
     .populate("author")
     .populate({
       path: "comments",
+      options: { sort: { createdAt: -1 } }, // Ordenar comentarios por createdAt en orden descendente
       populate: { path: "author" },
     })
     .then((jokes) => {
@@ -63,9 +64,6 @@ router.get("/jokes-list", (req, res, next) => {
 });
 
 
-
-
-
 // GET /jokes/:id
 router.get("/:id", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
@@ -78,10 +76,10 @@ router.get("/:id", isLoggedIn, (req, res, next) => {
       populate: { path: "author" },
     })
     .then((joke) => {
-      // Formatea la fecha de creación de la broma
+      joke.comments.reverse();
+
       const formattedCreatedAt = moment(joke.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
 
-      // Formatea la fecha de creación de cada comentario en la broma
       joke.comments.forEach((comment) => {
         comment.formattedCreatedAt = moment(comment.createdAt).format('D [de] MMMM [de] YYYY [a las] HH:mm [horas]');
       });
@@ -90,7 +88,6 @@ router.get("/:id", isLoggedIn, (req, res, next) => {
     })
     .catch((err) => next(err));
 });
-
 
 
 
@@ -106,10 +103,12 @@ router.post("/:id/comment", isLoggedIn, (req, res, next) => {
       return Joke.findByIdAndUpdate(jokeId, { $push: { comments: newComment._id } });
     })
     .then(() => {
-      res.redirect("/jokes/jokes-list");
+      // Cambia la redirección a la vista de detalles del chiste actual
+      res.redirect(`/jokes/${jokeId}`);
     })
     .catch((err) => next(err));
 });
+
 
 
 

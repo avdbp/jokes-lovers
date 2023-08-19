@@ -1,34 +1,37 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h2>Editar Usuario</h2>
-      <form action="/admin/users/{{user._id}}/edit" method="POST">
-        <div class="form-group">
-          <label for="name">Nombre:</label>
-          <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required>
-        </div>
-        <div class="form-group">
-          <label for="username">Username:</label>
-          <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" name="email" id="email" value="{{user.email}}" required>
-        </div>
-        <div class="form-group">
-          <label>Es Administrador:</label>
-          <div class="form-check">
-            <input type="radio" class="form-check-input" name="isAdmin" value="true" id="isAdminTrue" {{#if user.isAdmin}}checked{{/if}}>
-            <label class="form-check-label" for="isAdminTrue">Sí</label>
+      <div class="header-card">
+        <h2>Editar Usuario</h2>
+      </div>
+      <div class="body-card">
+        <form action="/admin/users/{{user._id}}/edit" method="POST">
+          <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required>
           </div>
-          <div class="form-check">
-            <input type="radio" class="form-check-input" name="isAdmin" value="false" id="isAdminFalse" {{#unless user.isAdmin}}checked{{/unless}}>
-            <label class="form-check-label" for="isAdminFalse">No</label>
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" name="username" id="username" value="{{user.username}}" required>
           </div>
-        </div>
-        <button type="submit" class="btn btn-warning" onclick="confirmSaveChanges()" >Guardar Cambios</button>
-      </form>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" name="email" id="email" value="{{user.email}}" required>
+          </div>
+          <div class="form-group">
+            <label>Es Administrador:</label>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="isAdmin" value="true" id="isAdminTrue" {{#if user.isAdmin}}checked{{/if}}>
+              <label class="form-check-label" for="isAdminTrue">Sí</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="isAdmin" value="false" id="isAdminFalse" {{#unless user.isAdmin}}checked{{/unless}}>
+              <label class="form-check-label" for="isAdminFalse">No</label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-dark text-warning" onclick="confirmSaveChanges()">Guardar Cambios</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
-

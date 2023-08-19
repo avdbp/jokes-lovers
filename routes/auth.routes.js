@@ -29,34 +29,81 @@ router.get("/signup", isLoggedOut, (req, res, next) => {
 });
 
 // POST /auth/signup
-// ... Importar los módulos y modelos necesarios
 
 router.post("/signup", isLoggedOut, (req, res, next) => {
-  const { name, username, email, password, passwordRepeat } = req.body;
+  const { name, username, email, password, passwordRepeat, pin } = req.body;
+  
+  if (name === "" || username === "" || password === "" || passwordRepeat === "" || email === "") {
+    res.render("auth/signup", {
+      errorMessage: "Debe rellenar todos los campos.",
+    });
+    return;
+  }
 
-  // Validaciones de campos y creación de usuario
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!emailRegex.test(email)) {
+    res.status(400).json({ message: "Provide a valid email address." });
+    return;
+  }
 
-  // Crear un nuevo usuario - comienza por hashear la contraseña
-  bcrypt
-    .genSalt(saltRounds)
-    .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => {
-      // Crear un usuario y guardar en la base de datos
-      return User.create({ name, username, email, password: hashedPassword });
-    })
+  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if (!passwordRegex.test(password)) {
+    res.render("auth/signup", {
+      errorMessage: "El Password debe tener al menos 6 caracteres y contener al menos un número, una minúscula y una letra mayúscula.",
+    });
+    return;
+  }
+
+  if (password !== passwordRepeat) {
+    res.render("auth/signup", {
+      errorMessage: "Los Password no coinciden.",
+    });
+    return;
+  }
+
+  User.findOne({ username })
     .then((user) => {
-      // Asignar avatar predeterminado
-      user.avatarPath = "/images/avatar.png";
-      // Guardar el usuario actualizado
-      return user.save();
-    })
-    .then(() => {
-      res.redirect("/auth/login");
+      if (user) {
+        res.render("auth/signup", {
+          errorMessage: "Este usuario ya existe.",
+        });
+        return;
+      }
+
+      let isAdmin = false; 
+      if (pin === "3003") {
+        isAdmin = true;
+      }
+
+      bcrypt
+        .genSalt(saltRounds)
+        .then((salt) => bcrypt.hash(password, salt))
+        .then((hashedPassword) => {
+          // Crear un usuario y guardar en la base de datos
+          return User.create({ name, username, email, password: hashedPassword, isAdmin });
+        })
+        .then((user) => {
+          user.avatarPath = "/images/avatar.png";
+          return user.save();
+        })
+        .then(() => {
+          res.redirect("/auth/login");
+        })
+        .catch((error) => {
+          console.error(error);
+          res.render("auth/signup", { errorMessage: "Error en el registro." });
+        });
     })
     .catch((error) => {
-      // Manejar errores
+      console.error(error);
+      res.render("auth/signup", { errorMessage: "Error en el registro." });
     });
 });
+
+
+
+
+
 
 // GET /auth/login
 router.get("/login", isLoggedOut, (req, res, next) => {
