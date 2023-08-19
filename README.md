@@ -132,7 +132,7 @@ const Comment = model("Comment", commentSchema);
 | Role  | Capabilities                                        | Property   |
 | ----- | -------------------------------------------------- | ---------- |
 | User  | Can login/logout. Can read all the jokes. Can create a new joke. | isAdmin: false |
-| Admin | Can login/logout. Can read, edit, or delete all jokes. Can create a new joke. | isAdmin: true |
+| Admin | Can login/logout. Can read, edit or delete all jokes. Can read, edit or delete users. Can create a new joke. | isAdmin: true |
 
 ## API Routes
 
