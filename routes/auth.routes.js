@@ -101,10 +101,6 @@ router.post("/signup", isLoggedOut, (req, res, next) => {
 });
 
 
-
-
-
-
 // GET /auth/login
 router.get("/login", isLoggedOut, (req, res, next) => {
   res.render("auth/login");

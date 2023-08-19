@@ -5,28 +5,23 @@ const path = require("path");
 
 
 
-// Require the User model in order to interact with the database
 const User = require("../models/User.model");
 const Joke = require("../models/Joke.model");
 const Comment = require("../models/Comment.model");
 
-// Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/images"); // Ruta donde se guardarán las imágenes
+    cb(null, "public/images"); 
   },
   filename: function (req, file, cb) {
-    // Obtener el ID del usuario actual
     const userId = req.session.currentUser._id;
 
-    // Obtener la extensión del archivo
     const ext = path.extname(file.originalname);
 
-    // Construir el nombre de archivo único con el ID del usuario y la extensión
     const uniqueFilename = `${userId}${ext}`;
 
     cb(null, uniqueFilename);
@@ -36,17 +31,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-
+//GET /users/profile
 router.get("/profile", isLoggedIn, (req, res, next) => {
   const currentUser = req.session.currentUser;
 
   User.findById(currentUser._id)
     .populate({
       path: "jokes",
-      options: { sort: { createdAt: -1 } }, // Ordenar chistes por fecha de creación en orden descendente
+      options: { sort: { createdAt: -1 } }, 
       populate: {
         path: "comments",
-        options: { sort: { createdAt: -1 } }, // Ordenar comentarios por fecha de creación en orden descendente
+        options: { sort: { createdAt: -1 } }, 
         populate: { path: "author" },
       },
     })
@@ -58,19 +53,16 @@ router.get("/profile", isLoggedIn, (req, res, next) => {
     });
 });
 
-
+//POST /users/profile/:id/delete
 router.post("/profile/:id/delete", isLoggedIn, (req, res, next) => {
   const userId = req.session.currentUser._id;
   const jokeId = req.params.id;
 
-  // Borrar el chiste y sus comentarios asociados
   Joke.findByIdAndDelete(jokeId)
     .then(() => {
-      // Borrar los comentarios del chiste
       return Comment.deleteMany({ joke: jokeId });
     })
     .then(() => {
-      // Redirigir a la página de perfil del usuario
       res.redirect("/users/profile");
     })
     .catch(error => {
@@ -78,22 +70,23 @@ router.post("/profile/:id/delete", isLoggedIn, (req, res, next) => {
     });
 });
 
-  
+//GET /users/profile/:id/edit-joke
   router.get("/profile/:id/edit", isLoggedIn, (req, res, next) => {
     const jokeId = req.params.id;
+    const currentUser = req.session.currentUser;
     
     Joke.findOne({ _id: jokeId, author: req.session.currentUser._id })
       .then(joke => {
         if (!joke) {
-          // Manejo si el chiste no se encuentra o no pertenece al usuario
           return res.redirect("/users/profile");
         }
-        
-        res.render("users/edit-joke", { joke, currentUser: req.session.currentUser });
+        res.render("users/edit-joke", { joke, user: currentUser });
+
       })
       .catch(err => next(err));
   });
 
+//POST /users/profile/:id/edit-joke
   router.post("/profile/:id/edit", isLoggedIn, (req, res, next) => {
     const jokeId = req.params.id;
     const { title, content } = req.body;
@@ -104,8 +97,7 @@ router.post("/profile/:id/delete", isLoggedIn, (req, res, next) => {
     )
     .then(updatedJoke => {
       if (!updatedJoke) {
-        // Manejo si el chiste no se encuentra o no pertenece al usuario
-        return res.redirect("/users/profile");
+        return res.redirect("/users/profile" );
       }
       
       res.redirect("/users/profile");
@@ -113,19 +105,19 @@ router.post("/profile/:id/delete", isLoggedIn, (req, res, next) => {
     .catch(err => next(err));
   });
   
-
+//GET /users/edit-profile
   router.get("/edit-profile", isLoggedIn, (req, res, next) => {
     const currentUser = req.session.currentUser;
     res.render("users/edit-profile", { user: currentUser });
   });
-  
+
+//POST /users/edit-profile
   router.post("/edit-profile", isLoggedIn, upload.single("avatar"), (req, res, next) => {
     const userId = req.session.currentUser._id;
     const { name, username, email } = req.body;
   
     let avatarPath = req.session.currentUser.avatarPath;
     if (req.file) {
-      // Construir la ruta relativa deseada
       const ext = path.extname(req.file.originalname);
       avatarPath = `/images/${userId}${ext}`; 
     }

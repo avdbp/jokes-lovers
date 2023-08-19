@@ -128,27 +128,51 @@ const Comment = model("Comment", commentSchema);
 ```
 
 ## User Roles
-| Role  | Capabilities                                                                                                                               | Property       |
-| :---: | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
-| User  | Can login/logout. Can read all the jokes. Can create a new joke.                                                                       | isAdmin: false |
-| Admin | Can login/logout. Can read, edit, or delete all jokes. Can create a new joke. | isAdmin: true  |
 
-## Routes
-| Method | Endpoint                    | Require                                             | Response (200)                                                        | Action                                                                    |
-| :----: | --------------------------- | --------------------------------------------------- |---------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| POST   | auth/signup                     | const { username, email, password } = req.body      | Redirect to the homepage                                                | Registers the user in the database and redirects to the login page.        |
-| POST   | auth/login                      | const { email, password } = req.body                | Redirect to the homepage                                                | Logs in a user already registered and redirects to the homepage.         |
-| POST   | auth/logout                      | const { email, password } = req.body                | Redirect to the homepage                                                | Logs in a user already registered and redirects to the homepage.         |
-| GET    | jokes/jokes                      | -                                                   | Render the page with all the jokes submitted by users.                   | Returns an array with all the jokes submitted by users.                  |
-| GET    | /jokes/:postId              | const { postId } = req.params                       | Render the page with the information of the specified joke.              | Returns the information of the specified joke.                            |
-| POST   | /jokes                      | const { title, content } = req.body                 | Redirect to the homepage                                                | Creates a new joke post in the database and redirects to the homepage.    |
-| PUT    | /jokes/:postId              | const { postId } = req.params                       | Redirect to the homepage                                                | Edits an existing joke post in the database and redirects to the homepage.|
-| DELETE | /jokes/:postId              | const { postId } = req.params                       | Redirect to the homepage                                                | Deletes a joke post from the database and redirects to the homepage.      |
-| GET    | /jokes/:postId/comments     | const { postId } = req.params                       | Render the page with all the comments for the specified joke.            | Returns all the comments for the specified joke.                          |
-| POST   | /jokes/:postId/comments     | const { postId, content } = req.body                | Redirect to the homepage                                                | Creates a new comment for the specified joke and redirects to the homepage.|
-| DELETE | /jokes/:postId/comments/:commentId | const { postId, commentId } = req.params   | Redirect to the homepage                                                | Deletes a comment from the specified joke and redirects to the homepage.  |
-| GET    | /jokeRandom                 | -                                                   | Render the page with a random joke using the GPT-powered API.             | Fetches a random joke using the GPT-powered API.                           |
-| /logout | -                                                     | -                                                   | Redirect to the homepage                                                | Logs out the current user.                                                |
+| Role  | Capabilities                                        | Property   |
+| ----- | -------------------------------------------------- | ---------- |
+| User  | Can login/logout. Can read all the jokes. Can create a new joke. | isAdmin: false |
+| Admin | Can login/logout. Can read, edit, or delete all jokes. Can create a new joke. | isAdmin: true |
+
+## API Routes
+
+### Admin Routes
+
+| Method | Endpoint                    | Middleware           | Description                       |
+| ------ | --------------------------- | -------------------- | --------------------------------- |
+| GET    | /admin/admin-dashboard      | isLoggedIn           | Render admin dashboard page.       |
+| POST   | /users/:id/delete           | isLoggedIn           | Delete a user and associated content. |
+| POST   | /jokes/:id/delete           | isLoggedIn           | Delete a joke and its comments.    |
+| POST   | /comments/:id/delete        | isLoggedIn           | Delete a comment.                  |
+| GET    | /users/:id/edit             | None                 | Render edit user page.             |
+| POST   | /users/:id/edit             | None                 | Update user information.           |
+
+### Authentication Routes
+
+| Method | Endpoint         | Middleware           | Description                       |
+| ------ | ---------------- | -------------------- | --------------------------------- |
+| GET    | /auth/signup     | isLoggedOut          | Render sign-up page.               |
+| POST   | /auth/signup     | isLoggedOut          | Create a new user account.         |
+| GET    | /auth/login      | isLoggedOut          | Render login page.                 |
+| POST   | /auth/login      | isLoggedOut          | Authenticate user login.           |
+| GET    | /auth/logout     | isLoggedIn           | Log out the user.                  |
+
+### Index Routes
+
+| Method | Endpoint  | Middleware | Description             |
+| ------ | --------- | ---------- | ----------------------- |
+| GET    | /         | None       | Render home page.       |
+
+### Jokes Routes
+
+| Method | Endpoint                 | Middleware           | Description                       |
+| ------ | ------------------------ | -------------------- | --------------------------------- |
+| GET    | /jokes/create-joke       | isLoggedIn           | Render create joke page.          |
+| POST   | /jokes/create            | isLoggedIn           | Create a new joke.                |
+| GET    | /jokes/jokes-list        | None                 | Render list of jokes.             |
+| GET    | /jokes/:id               | isLoggedIn           | Render joke
+
+
 
 ---
 

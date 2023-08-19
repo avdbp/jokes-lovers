@@ -87,6 +87,7 @@ h1, h2 {
 
 
 .header-card {
+  opacity: .8;
   padding: 15px;
   background-color: rgba(240, 174, 31, 0.8);
   border-radius: 10px;

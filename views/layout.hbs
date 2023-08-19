@@ -10,12 +10,12 @@
 <div class="ml-auto login-set">
       {{#if user}}
         <a class="btn btn-dark text-warning" > {{user.name }}  is Logged-in</a>
-        <a class="btn btn-warning text-dark" href="/auth/logout" onclick="confirmCloseSession()">Cerrar Sesión</a>
+        <a class="btn btn-danger" href="/auth/logout" onclick="confirmCloseSession()">Cerrar Sesión</a>
         
       {{else}}
-        <a class="btn btn-danger text-light" href="/jokes/jokes-list">Chistes Publicados</a>
-        <a class="btn btn-warning text-dark" href="/auth/signup">Regístrate</a>
-        <a class="btn btn-warning text-dark" href="/auth/login">Login</a>
+        <a class="btn btn-danger" href="/jokes/jokes-list">Chistes Publicados</a>
+        <a class="btn btn-dark text-warning" href="/auth/signup">Regístrate</a>
+        <a class="btn btn-dark text-warning" href="/auth/login">Login</a>
         
       {{/if}}
     </div>
