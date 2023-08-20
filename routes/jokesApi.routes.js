@@ -2,19 +2,22 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
+const isLoggedIn = require("../middleware/isLoggedIn");
+
 const dotenv = require('dotenv');
 dotenv.config();
 const apiKey = process.env.APIKEY_AI_SECRET;
 
-router.get('/chiste-random', (req, res, next) => {
-    const prompt = "Genera un chiste en español.";
+router.get('/chiste-random', isLoggedIn, (req, res, next) => {
+    const currentUser = req.session.currentUser 
+    const prompt = "Genera un chistes al estilo de alvarez guedez en español.";
 
     console.log('apikey', apiKey);
 
     axios.post('https://api.openai.com/v1/completions', {
         model: "text-davinci-003",
         prompt: prompt,
-        max_tokens: 50,
+        max_tokens: 4000,
     }, {
         headers: {
             'Content-Type': 'application/json',
@@ -23,7 +26,7 @@ router.get('/chiste-random', (req, res, next) => {
     })
     .then(response => {
         const chiste = response.data.choices[0].text.trim();
-        res.render('jokes/chiste-random', { chiste: chiste }); // Aquí debes pasar el chiste con la clave 'chiste'
+        res.render('jokes/chiste-random', { chiste: chiste, user: currentUser }); // Aquí debes pasar el chiste con la clave 'chiste'
     })
     .catch(error => {
         console.error(error.response.data);
