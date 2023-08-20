@@ -2,8 +2,8 @@
 
 body {
   background-image: url(../images/haha.jpg) !important;
-  padding: 50px;
   font-size:1.5rem!important ;
+  padding: 10px;
 }
 
 
@@ -148,6 +148,7 @@ div.avatar {
   background-size: 100% auto;
   border: 2px solid #ffd504;
   margin: 20px;
+  background-size: cover;
 
 }
 
@@ -160,6 +161,7 @@ div.avatar2 {
   background-size: 100% auto;
   border: 2px solid #ffd504;
   margin-bottom: 20px;
+  background-size: cover;
 }
 
 div.avatar3 {
@@ -171,6 +173,7 @@ div.avatar3 {
   background-size: 100% auto;
   border: 2px solid #ffd504;
   margin: 30px;
+  background-size: cover;
 }
 
 .warning-text {
@@ -187,4 +190,9 @@ div.avatar3 {
 
 a.login-signup:hover {
   color: #1287b6;
+}
+@media screen and (min-width: 768px){
+  body{
+    padding: 50px;
+  }
 }
