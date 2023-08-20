@@ -13,6 +13,7 @@
         <a class="btn btn-danger" href="/auth/logout" onclick="confirmCloseSession()">Cerrar Sesión</a>
         
       {{else}}
+     
         <a class="btn btn-danger" href="/jokes/jokes-list">Chistes Publicados</a>
         <a class="btn btn-dark text-warning" href="/auth/signup">Regístrate</a>
         <a class="btn btn-dark text-warning" href="/auth/login">Login</a>
@@ -27,6 +28,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="navbar-brand" href="/">Inicio</a>
+         <a class="btn btn-danger" href="/jokes/chiste-random">Chistes random</a>
       {{#if user}}
         
         <a class="navbar-brand" href="/users/profile">Perfil <strong>{{user.username}}</strong> </a>
