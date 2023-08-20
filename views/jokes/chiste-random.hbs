@@ -1,12 +1,20 @@
+
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="header-card">
-        <h2>Chiste Aleatorio</h2>
+        <h2>Chiste Random</h2>
       </div>
       <div class="body-card">
         <h1>Chiste:</h1>
         <p>{{ chiste }}</p>
+        <form action="/jokes/chiste-random" method="GET">
+          <button type="submit" class="btn btn-dark text-warning btn-lg">Chiste Nuevo</button>
+        </form>
+        <form action="/jokes/create" method="POST">
+          <input type="hidden" name="content" value="{{ chiste }}">
+          <button type="submit" class="btn btn-warning btn-lg">Publicar</button>
+        </form>
       </div>
     </div>
   </div>
