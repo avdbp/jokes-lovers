@@ -8,7 +8,7 @@ Welcome to Jokes Lover, the ultimate platform for jokes and laughter! I'm Alejan
 ![Project Image](https://ichef.bbci.co.uk/news/800/cpsprodpb/16D11/production/_108175439_gettyimages-683702656.jpg "Project Image")
 
 ## Deployment
-You can experience the laughter and joy by visiting the fully deployed app [here](https://jokes-lover-app.com).
+You can experience the laughter and joy by visiting the fully deployed app [here](https://jokes-lovers-avdb.onrender.com).
 
 ## Work Structure
 During the development of Jokes Lover, I worked alone, and I'm proud to present a product that's sure to bring smiles to everyone.
