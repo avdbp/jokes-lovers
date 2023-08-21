@@ -194,7 +194,7 @@ a.login-signup:hover {
 
 
 
-@media screen and (min-width: 780px){
+@media screen and (min-width: 768px){
   body{
     padding: 50px;
   }

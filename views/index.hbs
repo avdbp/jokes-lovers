@@ -5,15 +5,17 @@
         <h2>Bienvenido a la Página de Inicio<br/> {{user.name}}</h2>
       </div>
       <div class="body-card">
-        <p>¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
+        <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
+        <p>Hola, <strong>{{user.username}}</strong>. ¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
         {{#if user}}
-          <p>Hola, <strong>{{user.username}}</strong>. ¡Disfruta explorando y publicando chistes!</p>
-          <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
-          <a href="/users/profile" class="btn btn-dark text-warning btn-md">Ve a tu perfil</a>
+          <p>Disfruta de nuestra herramienta experimental "Chistes Random" que nos ofrece la Inteligencia Artificial de Open IA. Si te gusta el chiste puedes publicarlo.</p>
+          <a href="/jokes/chiste-random" class="btn btn-warning btn-md">Chiste Random</a>
+          <h3>Comienza a explorar <strong> Jokes Lovers</strong> y que comience la diversión</h3>
+          <a href="/users/profile" class="btn btn-dark text-warning btn-lg">Ve a tu perfil</a>
           {{#if user.isAdmin}}
-            <a href="/admin/admin-dashboard" class="btn btn-dark text-warning btn-md">Admin Dashboard</a>
+            <a href="/admin/admin-dashboard" class="btn btn-dark text-warning btn-lg">Admin Dashboard</a>
           {{/if}}
-          <a href="/auth/logout" class="btn btn-danger btn-md" onclick="confirmCloseSession()">Cerrar Sesión</a>
+          <a href="/auth/logout" class="btn btn-danger btn-lg" onclick="confirmCloseSession()">Cerrar Sesión</a>
         {{else}}
           <p>Para disfrutar de todos los chistes y funciones, inicia sesión o regístrate.</p>
           <a href="/auth/login" class="btn btn-dark text-warning btn-lg">Login</a>
