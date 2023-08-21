@@ -10,7 +10,7 @@ const apiKey = process.env.APIKEY_AI_SECRET;
 
 router.get('/chiste-random', isLoggedIn, (req, res, next) => {
     const currentUser = req.session.currentUser 
-    const prompt = "Genera un chistes al estilo de alvarez guedez en español.";
+    const prompt = "Genera un chistes en español de los más populares y graciosos que encuentres.";
 
     console.log('apikey', apiKey);
 
