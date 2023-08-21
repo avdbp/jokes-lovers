@@ -191,6 +191,9 @@ div.avatar3 {
 a.login-signup:hover {
   color: #1287b6;
 }
+
+
+
 @media screen and (min-width: 768px){
   body{
     padding: 50px;

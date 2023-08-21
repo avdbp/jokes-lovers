@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="header-card">
-        <h2>Chiste Random</h2>
+        <h2>Chistes Random</h2>
       </div>
       <div class="body-card">
         <h1>Chiste:</h1>
@@ -12,7 +12,8 @@
           <button type="submit" class="btn btn-dark text-warning btn-lg">Chiste Nuevo</button>
         </form>
         <form action="/jokes/create" method="POST">
-          <input type="hidden" name="content" value="{{ chiste }}">
+          <input type="hidden" name="content" value="{{ chiste }}"><br/>
+          <h3 style="color: brown;">Si te gusta el chiste puedes publicarlo</h3>
           <button type="submit" class="btn btn-warning btn-lg">Publicar</button>
         </form>
       </div>

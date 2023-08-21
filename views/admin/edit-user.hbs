@@ -28,9 +28,14 @@
               <input type="radio" class="form-check-input" name="isAdmin" value="false" id="isAdminFalse" {{#unless user.isAdmin}}checked{{/unless}}>
               <label class="form-check-label" for="isAdminFalse">No</label>
             </div>
+
+            <div class="form-group">
+            <input type="file" class="form-control-file d-none" name="avatar" id="avatar">
+            <label for="avatar"  class="btn btn-danger btn-file-style">Seleccionar Archivo</label>
+          </div>
            
           </div>
-          <button type="submit" class="btn btn-warning" onclick="confirmSaveChanges()">Guardar Cambios</button>
+          <button type="submit" class="btn btn-warning" onclick="confirmSaveChanges()" enctype="multipart/form-data">Guardar Cambios</button>
         </form>
        <div class="ml-4">
         <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
@@ -39,3 +44,4 @@
     </div>
   </div>
 </div>
+

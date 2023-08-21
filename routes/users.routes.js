@@ -9,7 +9,6 @@ const User = require("../models/User.model");
 const Joke = require("../models/Joke.model");
 const Comment = require("../models/Comment.model");
 
-const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 

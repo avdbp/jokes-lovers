@@ -59,17 +59,24 @@ router.post("/users/:id/delete", isLoggedIn, (req, res, next) => {
         return;
       }
 
-      return Joke.find({ author: userId });
-    })
-    .then((userJokes) => {
-      const jokeDeletions = userJokes.map((joke) => {
-        return Comment.deleteMany({ _id: { $in: joke.comments } })
-          .then(() => {
+      return Joke.find({ author: userId }).then((userJokes) => {
+        const jokeDeletions = userJokes.map((joke) => {
+          return Comment.deleteMany({ _id: { $in: joke.comments } }).then(() => {
             return Joke.findByIdAndDelete(joke._id);
           });
-      });
+        });
 
-      return Promise.all(jokeDeletions);
+        return Promise.all(jokeDeletions); 
+      });
+    })
+    .then(() => {
+      return Comment.find({ author: userId }).then((userComments) => {
+        const commentDeletions = userComments.map((comment) => {
+          return Comment.findByIdAndDelete(comment._id);
+        });
+
+        return Promise.all(commentDeletions); 
+      });
     })
     .then(() => {
       return User.findByIdAndDelete(userId);

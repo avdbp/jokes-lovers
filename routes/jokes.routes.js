@@ -3,10 +3,12 @@ const router = express.Router();
 const User = require("../models/User.model");
 const Joke = require("../models/Joke.model");
 const Comment = require("../models/Comment.model");
-const isLoggedIn = require("../middleware/isLoggedIn");
 const moment = require('moment');
 require('moment/locale/es'); 
 moment.locale('es');
+
+
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 
 
