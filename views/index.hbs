@@ -5,9 +5,10 @@
         <h2>Bienvenido a la Página de Inicio<br/> {{user.name}}</h2>
       </div>
       <div class="body-card">
-        <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
-        <p>Hola <strong>{{user.username}}</strong> ¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
         {{#if user}}
+        <div class="avatar3" style="background-image: url({{ user.avatarPath }})" alt="Avatar"></div>
+                  <p>Hola <strong>{{user.username}}</strong> ¡Bienvenido a nuestra plataforma de chistes! Aquí podrás leer y compartir chistes divertidos.</p>
+
           <p>Disfruta de nuestra herramienta experimental "Chistes Random" que nos ofrece la Inteligencia Artificial de Open IA. Si te gusta el chiste puedes publicarlo.</p>
           <a href="/jokes/chiste-random" class="btn btn-warning btn-md">Chiste Random</a>
           <h3>Comienza a explorar <strong> Jokes Lovers</strong> y que comience la diversión</h3>
